@@ -57,11 +57,11 @@ def basicpacketcheck (pkt):
         return 2
 
     i = 0
-    counter = 0
+    counter = 1
     while i < len(pkt):
         if i < len(pkt) and counter < len(pkt):
             x += (pkt[i] << 8) + pkt[i+1]
-            i +=2
+            i += 2
             counter = i + 1
         else:
             break
