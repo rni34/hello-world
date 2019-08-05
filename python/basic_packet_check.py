@@ -42,15 +42,43 @@ def composepacket (version, hdrlen, tosdscp, totallength, identification, flags,
                 res += x
         return res
 
-print(composepacket(4,5,0,1500,24200,0,63,22,6,4711, 2190815565, 3232270145))
+
+
+
+
 
 
 def basicpacketcheck (pkt):
-    print(len(pkt))
     first_byte = pkt[0]
-    if (first_byte >> 4) & 0xf != 4:
+    x = 0
+    if len(pkt) < 20:
+        return 1
+    elif (first_byte >> 4) & 0xf != 4:
         return 2
-    return (pkt[10] << 4) | pkt[11]
+
+    i = 0
+    counter = 0
+    while i < len(pkt):
+        if i < len(pkt) and counter < len(pkt):
+            x += (pkt[i] << 8) + pkt[i+1]
+            i +=2
+            counter = i + 1
+        else:
+            break
+
+    while x > 0xFFFF:
+        X0 = x & 0xFFFF
+        X1 = x >> 16
+        x = X0 + X1
+
+    if x != 0xFFFF:
+        return 3
+
+    length = (pkt[2] << 8) + pkt[3]
+    if length != len(pkt):
+        return 4
+
+    return True
 
 
 
@@ -58,7 +86,5 @@ pkt1 = bytearray ([0x45, 0x0, 0x0, 0x1e, 0x4, 0xd2, 0x0, 0x0, 0x40, 0x6, 0x20, 0
 pkt2 = bytearray ([0x45, 0x0, 0x0, 0x1e, 0x16, 0x2e, 0x0, 0x0, 0x40, 0x6, 0xcd, 0x59, 0x66, 0x66, 0x44, 0x44, 0x98, 0x76, 0x54, 0x32, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0])
 pkt3 = bytearray ([0x45, 0x0, 0x0, 0x1b, 0x12, 0x67, 0x20, 0xe, 0x20, 0x6, 0x35, 0x58, 0x66, 0x66, 0x44, 0x44, 0x55, 0x44, 0x33, 0x22, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0])
 print(basicpacketcheck(pkt1))
-# print(basicpacketcheck(pkt2))
-# print(basicpacketcheck(pkt3))
-print(b'E\x00\x05\xdc^\x88\x00?\x16\x06\x12g\x82\x951M\xc0\xa8\x87A')
-print()
+print(basicpacketcheck(pkt2))
+print(basicpacketcheck(pkt3))
