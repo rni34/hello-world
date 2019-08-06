@@ -131,21 +131,25 @@ def revisedcompose (hdrlen, tosdscp, identification, flags, fragmentoffset, time
     elif destinationaddress < 0 or len(bin(destinationaddress)) > 34:
         return 12
     else:
-
+        first_byte = version << 4 | hdrlen
+        flag_byte = (flags << 5) | (fragmentoffset >> 8)
+        list1 = [first_byte, tosdscp, totallength, identification, flag_byte, timetolive, protocoltype,
+                 headerchecksum, sourceaddress, destinationaddress]
         res = bytearray()
-        first_byte = (version << 4) | hdrlen
-        tosdscp = (tosdscp << 2)
-        flag_byte = (flags << 13) + (fragmentoffset)
-        list1 = [first_byte, tosdscp, totallength, identification, flag_byte, timetolive, protocoltype, headerchecksum, sourceaddress, destinationaddress]
-        acc = 0
-        while acc < len(list1):
-            if acc > 7:
-                res += list1[acc].to_bytes(4, 'big')
-            elif acc < 2 or acc == 5 or acc == 6:
-                res += list1[acc].to_bytes(1, 'big')
-            else:
-                res += list1[acc].to_bytes(2, 'big')
-            acc += 1
+        for element in list1:
+            if element <= 0xFF:
+                x = element.to_bytes(1, byteorder='big')
+                res += x
+                print(x)
+                x = element.to_bytes(2, byteorder='big')
+                res += x
+                print(x)
+                x = element.to_bytes(3, byteorder='big')
+                res += x
+                print(x)
+                x = element.to_bytes(4, byteorder='big')
+                res += x
+                print(x)
 
     for i in range(hdrlen * 4 - len(res)):
         res.append(0x00)
@@ -168,26 +172,7 @@ def revisedcompose (hdrlen, tosdscp, identification, flags, fragmentoffset, time
     for byte in payload:
         res.append(byte)
     return res
-# print(revisedcompose (6, 24, 4711, 0, 22, 64, 0x06, 0x22334455, 0x66778899, bytearray([0x10, 0x11, 0x12, 0x13, 0x14, 0x15])))
-# print(revisedcompose (6, 24, 4711, 0, 22, 64, 0x06, 0x22334455, 0x66778899, bytearray([0x10, 0x11, 0x12, 0x13, 0x14, 0x15]))==bytearray(b'F`\x00\x1e\x12g\x00\x16@\x06\x11e"3DUfw\x88\x99\x00\x00\x00\x00\x10\x11\x12\x13\x14\x15'))
-# print(bytearray(b'F`\x00\x1e\x12g\x00\x16@\x06\x11e"3DUfw\x88\x99\x00\x00\x00\x00\x10\x11\x12\x13\x14\x15'))
-# # # print(int.from_bytes(b'\x1e','big'))
 
-
-
-# print(revisedcompose (6, 24, 4711, 0, 22, 64, 0x06, 0x22334455, 0x66778899, bytearray([0x10, 0x11, 0x12, 0x13, 0x14, 0x15]))==bytearray(b'F`\x00\x1e\x12g\x00\x16@\x06\x11e"3DUfw\x88\x99\x00\x00\x00\x00\x10\x11\x12\x13\x14\x15'))
-#
-# print(revisedcompose(16,0,4000,0,63,22,0x06, 2190815565, 3232270145, bytearray([]))==2)
-# print(revisedcompose(4,0,4000,0,63,22,0x06, 2190815565, 3232270145, bytearray([]))==2)
-#
-# print(revisedcompose(5,64,4000,0,63,22,0x06, 2190815565, 3232270145, bytearray([]))==3)
-#
-# print(revisedcompose(5,63,0x10000,0,63,22,0x06, 2190815565, 3232270145, bytearray([]))==5)
-#
-# print(revisedcompose(5,63,4711,8,63,22,0x06, 2190815565, 3232270145, bytearray([]))==6)
-# print(revisedcompose(5,63,4711,0,8192,22,0x06, 2190815565, 3232270145, bytearray([]))==7)
-# print(revisedcompose(5,63,4711,0,8191,256,0x06, 2190815565, 3232270145, bytearray([]))==8)
-# print(revisedcompose(5,63,4711,0,8191,64,256, 2190815565, 3232270145, bytearray([]))==9)
-# print(revisedcompose(5,63,4711,0,8191,64,0x06, 4294967296, 3232270145, bytearray([]))==11)
-# print(revisedcompose(5,63,4711,0,8191,64,0x06, 2190815565, 4294967296, bytearray([]))==12)
-# print(revisedcompose (5, 24, 4711, 0, 22, 64, 0x06, 0x22334455, 0x66778899, bytearray([0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17]))==bytearray(b'E`\x00\x1c\x12g\x00\x16@\x06\x12g"3DUfw\x88\x99\x10\x11\x12\x13\x14\x15\x16\x17'))
+print(revisedcompose (6, 24, 4711, 0, 22, 64, 0x06, 0x22334455, 0x66778899, bytearray([0x10, 0x11, 0x12, 0x13, 0x14, 0x15])))
+print(bytearray(b'F`\x00\x1e\x12g\x00\x16@\x06\x11e"3DUfw\x88\x99\x00\x00\x00\x00\x10\x11\x12\x13\x14\x15'))
+# print(int.from_bytes(b'\x1e','big'))
