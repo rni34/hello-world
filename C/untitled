@@ -1,0 +1,3 @@
+#define CRITICAL_HIGH 9.81
+#define CRITICAL_LOW 5.0
+int readDoubles(int n, double data[])
