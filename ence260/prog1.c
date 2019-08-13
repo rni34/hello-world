@@ -1,78 +1,51 @@
-/* An improved (but incomplete) version of twiddle.c that
- * doesn't use external (global) variables.
- * Written for ENCE260 June 2011/2013/2018
+ * structexample2.c
+ * A development from structexample1 (q.v. for explanations),
+ * this time using a typedef for the student structure.
+ * The global variables have been moved into "main", too,
+ * and have been given initialisers.
+ * Otherwise it's the same as the previous example.
+ *
  * Author: Richard Lobb
+ * Date: August 2014
  */
 
 #include <stdio.h>
-#include <ctype.h>
+#include <stdlib.h>
 
-#define MAX_NAME_LENGTH 80
+typedef struct student_s Student;
 
-// Read a name (or any string) into the parameter array.
-// Terminate it with null.
-void readName(int maxLen, char name[])
+struct student_s {
+    char* name;
+    int age;
+    Student* next;  // Pointer to next student in a list
+};
+
+
+void printOneStudent(Student student)
 {
-    int c = 0;
-    int i = 0;
-    printf("Enter your name: ");
-    while ((c = getchar()) != '\n' && c != EOF && i < maxLen - 1) {
-        name[i++] = c;
-    }
-    name[i] = '\0';  /* terminator */
+    printf("%s (%d)\n", student.name, student.age);
 }
 
-void convertStringToUpper(char name[])
+
+void printStudents(const Student* student)
 {
-    int i = 0;
-    while (name[i] != '\0') {
-        name[i] = toupper(name[i]);
-        ++i;
+    while (student != NULL) {
+        printOneStudent(*student);
+        student = student->next;
     }
 }
-
-int countMatches(int n, int data[], int searchValue)
-{
-    int i = 0;
-    int count = 0;
-    while (data[i] != '\0' && i < n) {
-        if(data[i] == searchValue) {
-            ++count;
-        }
-        ++i;
-
-    }
-    return count;
-}
-
-int isWonRow(char player, char game[3][3], int rowNum)
-{
-
-    if (game[rowNum][0] == game[rowNum][1] && game[rowNum][1] == game[rowNum][2] && game[rowNum][0] == game[rowNum][2]) {
-        if (game[rowNum][0] == player) {
-            return 1;
-        }
-    }
-    return 0;
-}
-
 
 
 int main(void)
 {
+    // Declare and initialise the students and the list
+    Student student = {"Agnes McGurkinshaw", 97, NULL};
+    Student anotherStudent = {"Jingwu Xiao", 21, NULL};
+    Student* studentList = NULL;
 
-char game[3][3] = {{'X', 'O', ' '},{'X', 'X', 'X'}, {' ', ' ', ' '}};
-printf("%d\n", isWonRow('X', game, 1));
-
-char game1[3][3] = {{'X', 'O', ' '},{' ', ' ', ' '}, {'X', 'X', 'O'}};
-printf("%d\n", isWonRow('X', game1, 2));
-
-char game2[3][3] = {{'X', 'O', ' '},{' ', ' ', ' '}, {'O', 'O', 'O'}};
-printf("%d\n", isWonRow('O', game2, 2));
-
-char game3[3][3] = {{'X', 'O', ' '},{' ', ' ', ' '}, {'O', 'O', 'O'}};
-printf("%d\n", isWonRow('O', game3, 0));
-
-char game4[3][3] = {{'X', 'X', 'X'},{' ', ' ', ' '}, {'O', 'O', 'O'}};
-printf("%d\n", isWonRow('O', game4, 0));
+    // Set up the linked list structure
+    student.next = &anotherStudent;
+    studentList = &student;
+    printStudents(studentList);
+    return EXIT_SUCCESS;
 }
