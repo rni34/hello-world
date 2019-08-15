@@ -132,7 +132,7 @@ var DataLengthProbe = require('./stream/DataLengthProbe');
  * @constructor
  * @param {number} compressedSize the size of the data compressed.
  * @param {number} uncompressedSize the size of the data after decompression.
- * @param {number} crc32 the crc32 of the decompressed file.
+ * @param {number} crc32 the crc32 of the decompressed new_file.
  * @param {object} compression the type of compression, see lib/compressions.js.
  * @param {String|ArrayBuffer|Uint8Array|Buffer} data the compressed data.
  */
@@ -437,7 +437,7 @@ var decToHex = function(dec, bytes) {
 };
 
 /**
- * Generate the UNIX part of the external file attributes.
+ * Generate the UNIX part of the external new_file attributes.
  * @param {Object} unixPermissions the unix permissions or null.
  * @param {Boolean} isDir true if the entry is a directory, false otherwise.
  * @return {Number} a 32 bit integer.
@@ -445,11 +445,11 @@ var decToHex = function(dec, bytes) {
  * adapted from http://unix.stackexchange.com/questions/14705/the-zip-formats-external-file-attribute :
  *
  * TTTTsstrwxrwxrwx0000000000ADVSHR
- * ^^^^____________________________ file type, see zipinfo.c (UNX_*)
+ * ^^^^____________________________ new_file type, see zipinfo.c (UNX_*)
  *     ^^^_________________________ setuid, setgid, sticky
  *        ^^^^^^^^^________________ permissions
  *                 ^^^^^^^^^^______ not used ?
- *                           ^^^^^^ DOS attribute bits : Archive, Directory, Volume label, System file, Hidden, Read only
+ *                           ^^^^^^ DOS attribute bits : Archive, Directory, Volume label, System new_file, Hidden, Read only
  */
 var generateUnixExternalFileAttr = function (unixPermissions, isDir) {
 
@@ -464,7 +464,7 @@ var generateUnixExternalFileAttr = function (unixPermissions, isDir) {
 };
 
 /**
- * Generate the DOS part of the external file attributes.
+ * Generate the DOS part of the external new_file attributes.
  * @param {Object} dosPermissions the dos permissions or null.
  * @param {Boolean} isDir true if the entry is a directory, false otherwise.
  * @return {Number} a 32 bit integer.
@@ -483,13 +483,13 @@ var generateDosExternalFileAttr = function (dosPermissions, isDir) {
 };
 
 /**
- * Generate the various parts used in the construction of the final zip file.
- * @param {Object} streamInfo the hash with informations about the compressed file.
+ * Generate the various parts used in the construction of the final zip new_file.
+ * @param {Object} streamInfo the hash with informations about the compressed new_file.
  * @param {Boolean} streamedContent is the content streamed ?
  * @param {Boolean} streamingEnded is the stream finished ?
- * @param {number} offset the current offset from the start of the zip file.
+ * @param {number} offset the current offset from the start of the zip new_file.
  * @param {String} platform let's pretend we are this platform (change platform dependents fields)
- * @param {Function} encodeFileName the function to encode the file name / comment.
+ * @param {Function} encodeFileName the function to encode the new_file name / comment.
  * @return {Object} the zip parts.
  */
 var generateZipParts = function(streamInfo, streamedContent, streamingEnded, offset, platform, encodeFileName) {
@@ -528,7 +528,7 @@ var generateZipParts = function(streamInfo, streamedContent, streamingEnded, off
 
     var bitflag = 0;
     if (streamedContent) {
-        // Bit 3: the sizes/crc32 are set to zero in the local header.
+        // Bit 3: the sizes/crc32 are set to zero in the local magic_no_from_client.
         // The correct values are put in the data descriptor immediately
         // following the compressed data.
         bitflag |= 0x0008;
@@ -576,7 +576,7 @@ var generateZipParts = function(streamInfo, streamedContent, streamingEnded, off
         // as any other information. This could improve the situation with
         // other archive managers too.
         // This field is usually used without the utf8 flag, with a non
-        // unicode path in the header (winrar, winzip). This helps (a bit)
+        // unicode path in the magic_no_from_client (winrar, winzip). This helps (a bit)
         // with the messy Windows' default compressed folders feature but
         // breaks on p7zip which doesn't seek the unicode path extra field.
         // So for now, UTF-8 everywhere !
@@ -624,9 +624,9 @@ var generateZipParts = function(streamInfo, streamedContent, streamingEnded, off
     header += decToHex(bitflag, 2);
     // compression method
     header += compression.magic;
-    // last mod file time
+    // last mod new_file time
     header += decToHex(dosTime, 2);
-    // last mod file date
+    // last mod new_file date
     header += decToHex(dosDate, 2);
     // crc-32
     header += decToHex(dataInfo.crc32, 4);
@@ -634,7 +634,7 @@ var generateZipParts = function(streamInfo, streamedContent, streamingEnded, off
     header += decToHex(dataInfo.compressedSize, 4);
     // uncompressed size
     header += decToHex(dataInfo.uncompressedSize, 4);
-    // file name length
+    // new_file name length
     header += decToHex(encodedFileName.length, 2);
     // extra field length
     header += decToHex(extraFields.length, 2);
@@ -645,23 +645,23 @@ var generateZipParts = function(streamInfo, streamedContent, streamingEnded, off
     var dirRecord = signature.CENTRAL_FILE_HEADER +
         // version made by (00: DOS)
         decToHex(versionMadeBy, 2) +
-        // file header (common to file and central directory)
+        // new_file magic_no_from_client (common to new_file and central directory)
         header +
-        // file comment length
+        // new_file comment length
         decToHex(encodedComment.length, 2) +
         // disk number start
         "\x00\x00" +
-        // internal file attributes TODO
+        // internal new_file attributes TODO
         "\x00\x00" +
-        // external file attributes
+        // external new_file attributes
         decToHex(extFileAttr, 4) +
-        // relative offset of local header
+        // relative offset of local magic_no_from_client
         decToHex(offset, 4) +
-        // file name
+        // new_file name
         encodedFileName +
         // extra field
         extraFields +
-        // file comment
+        // new_file comment
         encodedComment;
 
     return {
@@ -672,10 +672,10 @@ var generateZipParts = function(streamInfo, streamedContent, streamingEnded, off
 
 /**
  * Generate the EOCD record.
- * @param {Number} entriesCount the number of entries in the zip file.
+ * @param {Number} entriesCount the number of entries in the zip new_file.
  * @param {Number} centralDirLength the length (in bytes) of the central dir.
  * @param {Number} localDirLength the length (in bytes) of the local dir.
- * @param {String} comment the zip file comment as a binary string.
+ * @param {String} comment the zip new_file comment as a binary string.
  * @param {Function} encodeFileName the function to encode the comment.
  * @return {String} the EOCD record.
  */
@@ -697,18 +697,18 @@ var generateCentralDirectoryEnd = function (entriesCount, centralDirLength, loca
         decToHex(centralDirLength, 4) +
         // offset of start of central directory with respect to the starting disk number
         decToHex(localDirLength, 4) +
-        // .ZIP file comment length
+        // .ZIP new_file comment length
         decToHex(encodedComment.length, 2) +
-        // .ZIP file comment
+        // .ZIP new_file comment
         encodedComment;
 
     return dirEnd;
 };
 
 /**
- * Generate data descriptors for a file entry.
+ * Generate data descriptors for a new_file entry.
  * @param {Object} streamInfo the hash generated by a worker, containing informations
- * on the file entry.
+ * on the new_file entry.
  * @return {String} the data descriptors.
  */
 var generateDataDescriptors = function (streamInfo) {
@@ -726,22 +726,22 @@ var generateDataDescriptors = function (streamInfo) {
 
 
 /**
- * A worker to concatenate other workers to create a zip file.
+ * A worker to concatenate other workers to create a zip new_file.
  * @param {Boolean} streamFiles `true` to stream the content of the files,
  * `false` to accumulate it.
  * @param {String} comment the comment to use.
  * @param {String} platform the platform to use, "UNIX" or "DOS".
- * @param {Function} encodeFileName the function to encode file names and comments.
+ * @param {Function} encodeFileName the function to encode new_file names and comments.
  */
 function ZipFileWorker(streamFiles, comment, platform, encodeFileName) {
     GenericWorker.call(this, "ZipFileWorker");
     // The number of bytes written so far. This doesn't count accumulated chunks.
     this.bytesWritten = 0;
-    // The comment of the zip file
+    // The comment of the zip new_file
     this.zipComment = comment;
-    // The platform "generating" the zip file.
+    // The platform "generating" the zip new_file.
     this.zipPlatform = platform;
-    // the function to encode file names and comments.
+    // the function to encode new_file names and comments.
     this.encodeFileName = encodeFileName;
     // Should we stream the content of the files ?
     this.streamFiles = streamFiles;
@@ -754,11 +754,11 @@ function ZipFileWorker(streamFiles, comment, platform, encodeFileName) {
     this.contentBuffer = [];
     // The list of generated directory records.
     this.dirRecords = [];
-    // The offset (in bytes) from the beginning of the zip file for the current source.
+    // The offset (in bytes) from the beginning of the zip new_file for the current source.
     this.currentSourceOffset = 0;
-    // The total number of entries in this zip file.
+    // The total number of entries in this zip new_file.
     this.entriesCount = 0;
-    // the name of the file currently being added, null when handling the end of the zip file.
+    // the name of the new_file currently being added, null when handling the end of the zip new_file.
     // Used for the emited metadata.
     this.currentFile = null;
 
@@ -810,7 +810,7 @@ ZipFileWorker.prototype.openedSource = function (streamInfo) {
             meta : {percent:0}
         });
     } else {
-        // we need to wait for the whole file before pushing anything
+        // we need to wait for the whole new_file before pushing anything
         this.accumulate = true;
     }
 };
@@ -826,14 +826,14 @@ ZipFileWorker.prototype.closedSource = function (streamInfo) {
 
     this.dirRecords.push(record.dirRecord);
     if(streamedContent) {
-        // after the streamed file, we put data descriptors
+        // after the streamed new_file, we put data descriptors
         this.push({
             data : generateDataDescriptors(streamInfo),
             meta : {percent:100}
         });
     } else {
         // the content wasn't streamed, we need to push everything now
-        // first the file record, then the content
+        // first the new_file record, then the content
         this.push({
             data : record.fileRecord,
             meta : {percent:0}
@@ -961,7 +961,7 @@ var ZipFileWorker = require('./ZipFileWorker');
 
 /**
  * Find the compression to use.
- * @param {String} fileCompression the compression defined at the file level, if any.
+ * @param {String} fileCompression the compression defined at the new_file level, if any.
  * @param {String} zipCompression the compression defined at the load() level.
  * @return {Object} the compression object to use.
  */
@@ -976,9 +976,9 @@ var getCompression = function (fileCompression, zipCompression) {
 };
 
 /**
- * Create a worker to generate a zip file.
+ * Create a worker to generate a zip new_file.
  * @param {JSZip} zip the JSZip instance at the right root level.
- * @param {Object} options to generate the zip file.
+ * @param {Object} options to generate the zip new_file.
  * @param {String} comment the comment to use.
  */
 exports.generateWorker = function (zip, options, comment) {
@@ -1016,7 +1016,7 @@ exports.generateWorker = function (zip, options, comment) {
 'use strict';
 
 /**
- * Representation a of zip file in js
+ * Representation a of zip new_file in js
  * @constructor
  */
 function JSZip() {
@@ -1109,10 +1109,10 @@ module.exports = function(data, options) {
     });
 
     if (nodejsUtils.isNode && nodejsUtils.isStream(data)) {
-        return external.Promise.reject(new Error("JSZip can't accept a stream when loading a zip file."));
+        return external.Promise.reject(new Error("JSZip can't accept a stream when loading a zip new_file."));
     }
 
-    return utils.prepareContent("the loaded zip file", data, true, options.optimizedBinaryString, options.base64)
+    return utils.prepareContent("the loaded zip new_file", data, true, options.optimizedBinaryString, options.base64)
     .then(function(data) {
         var zipEntries = new ZipEntries(options);
         zipEntries.load(data);
@@ -1159,7 +1159,7 @@ var GenericWorker = require('../stream/GenericWorker');
 /**
  * A worker that use a nodejs stream as source.
  * @constructor
- * @param {String} filename the name of the file entry for this stream.
+ * @param {String} filename the name of the new_file entry for this stream.
  * @param {Readable} stream the nodejs stream.
  */
 function NodejsStreamInputAdapter(filename, stream) {
@@ -1276,7 +1276,7 @@ module.exports = NodejsStreamOutputAdapter;
 module.exports = {
     /**
      * True if this is running in Nodejs, will be undefined in a browser.
-     * In a browser, browserify won't include this file and the whole module
+     * In a browser, browserify won't include this new_file and the whole module
      * will be resolved an empty object.
      */
     isNode : typeof Buffer !== "undefined",
@@ -1339,12 +1339,12 @@ var NodejsStreamInputAdapter = require("./nodejs/NodejsStreamInputAdapter");
 
 
 /**
- * Add a file in the current folder.
+ * Add a new_file in the current folder.
  * @private
- * @param {string} name the name of the file
- * @param {String|ArrayBuffer|Uint8Array|Buffer} data the data of the file
- * @param {Object} originalOptions the options of the file
- * @return {Object} the new file.
+ * @param {string} name the name of the new_file
+ * @param {String|ArrayBuffer|Uint8Array|Buffer} data the data of the new_file
+ * @param {Object} originalOptions the options of the new_file
+ * @return {Object} the new new_file.
  */
 var fileAdd = function(name, data, originalOptions) {
     // be sure sub folders exist
@@ -1416,7 +1416,7 @@ var fileAdd = function(name, data, originalOptions) {
     /*
     TODO: we can't throw an exception because we have async promises
     (we can have a promise of a Date() for example) but returning a
-    promise is useless because file(name, data) returns the JSZip
+    promise is useless because new_file(name, data) returns the JSZip
     object for chaining. Should we break that to allow the user
     to catch the error ?
 
@@ -1501,8 +1501,8 @@ var out = {
     /**
      * Call a callback function for each entry at this folder level.
      * @param {Function} cb the callback function:
-     * function (relativePath, file) {...}
-     * It takes 2 arguments : the relative path and the file.
+     * function (relativePath, new_file) {...}
+     * It takes 2 arguments : the relative path and the new_file.
      */
     forEach: function(cb) {
         var filename, relativePath, file;
@@ -1512,7 +1512,7 @@ var out = {
             }
             file = this.files[filename];
             relativePath = filename.slice(this.root.length, filename.length);
-            if (relativePath && filename.slice(0, this.root.length) === this.root) { // the file is in the current root
+            if (relativePath && filename.slice(0, this.root.length) === this.root) { // the new_file is in the current root
                 cb(relativePath, file); // TODO reverse the parameters ? need to be clean AND consistent with the filter search fn...
             }
         }
@@ -1521,14 +1521,14 @@ var out = {
     /**
      * Filter nested files/folders with the specified function.
      * @param {Function} search the predicate to use :
-     * function (relativePath, file) {...}
-     * It takes 2 arguments : the relative path and the file.
+     * function (relativePath, new_file) {...}
+     * It takes 2 arguments : the relative path and the new_file.
      * @return {Array} An array of matching elements.
      */
     filter: function(search) {
         var result = [];
         this.forEach(function (relativePath, entry) {
-            if (search(relativePath, entry)) { // the file matches the function
+            if (search(relativePath, entry)) { // the new_file matches the function
                 result.push(entry);
             }
 
@@ -1537,13 +1537,13 @@ var out = {
     },
 
     /**
-     * Add a file to the zip file, or search a file.
-     * @param   {string|RegExp} name The name of the file to add (if data is defined),
-     * the name of the file to find (if no data) or a regex to match files.
-     * @param   {String|ArrayBuffer|Uint8Array|Buffer} data  The file data, either raw or base64 encoded
+     * Add a new_file to the zip new_file, or search a new_file.
+     * @param   {string|RegExp} name The name of the new_file to add (if data is defined),
+     * the name of the new_file to find (if no data) or a regex to match files.
+     * @param   {String|ArrayBuffer|Uint8Array|Buffer} data  The new_file data, either raw or base64 encoded
      * @param   {Object} o     File options
-     * @return  {JSZip|Object|Array} this JSZip object (when adding a file),
-     * a file (when searching by string) or an array of files (when searching by regex).
+     * @return  {JSZip|Object|Array} this JSZip object (when adding a new_file),
+     * a new_file (when searching by string) or an array of files (when searching by regex).
      */
     file: function(name, data, o) {
         if (arguments.length === 1) {
@@ -1570,7 +1570,7 @@ var out = {
     },
 
     /**
-     * Add a directory to the zip file, or search.
+     * Add a directory to the zip new_file, or search.
      * @param   {String|RegExp} arg The name of the directory to add, or a regex to search folders.
      * @return  {JSZip} an object with the new directory as the root, or an array containing matching folders.
      */
@@ -1596,8 +1596,8 @@ var out = {
     },
 
     /**
-     * Delete a file, or a directory and all sub-files, from the zip
-     * @param {string} name the name of the file to delete
+     * Delete a new_file, or a directory and all sub-files, from the zip
+     * @param {string} name the name of the new_file to delete
      * @return {JSZip} this JSZip object
      */
     remove: function(name) {
@@ -1612,7 +1612,7 @@ var out = {
         }
 
         if (file && !file.dir) {
-            // file
+            // new_file
             delete this.files[name];
         } else {
             // maybe a folder, delete recursively
@@ -1628,22 +1628,22 @@ var out = {
     },
 
     /**
-     * Generate the complete zip file
-     * @param {Object} options the options to generate the zip file :
+     * Generate the complete zip new_file
+     * @param {Object} options the options to generate the zip new_file :
      * - compression, "STORE" by default.
      * - type, "base64" by default. Values are : string, base64, uint8array, arraybuffer, blob.
-     * @return {String|Uint8Array|ArrayBuffer|Buffer|Blob} the zip file
+     * @return {String|Uint8Array|ArrayBuffer|Buffer|Blob} the zip new_file
      */
     generate: function(options) {
         throw new Error("This method has been removed in JSZip 3.0, please check the upgrade guide.");
     },
 
     /**
-     * Generate the complete zip file as an internal stream.
-     * @param {Object} options the options to generate the zip file :
+     * Generate the complete zip new_file as an internal stream.
+     * @param {Object} options the options to generate the zip new_file :
      * - compression, "STORE" by default.
      * - type, "base64" by default. Values are : string, base64, uint8array, arraybuffer, blob.
-     * @return {StreamHelper} the streamed zip file.
+     * @return {StreamHelper} the streamed zip new_file.
      */
     generateInternalStream: function(options) {
       var worker, opts = {};
@@ -1695,14 +1695,14 @@ var out = {
       return new StreamHelper(worker, opts.type || "string", opts.mimeType);
     },
     /**
-     * Generate the complete zip file asynchronously.
+     * Generate the complete zip new_file asynchronously.
      * @see generateInternalStream
      */
     generateAsync: function(options, onUpdate) {
         return this.generateInternalStream(options).accumulate(onUpdate);
     },
     /**
-     * Generate the complete zip file asynchronously.
+     * Generate the complete zip new_file asynchronously.
      * @see generateInternalStream
      */
     generateNodeStream: function(options, onUpdate) {
@@ -1717,7 +1717,7 @@ module.exports = out;
 
 },{"./compressedObject":2,"./defaults":5,"./generate":9,"./nodejs/NodejsStreamInputAdapter":12,"./nodejsUtils":14,"./stream/GenericWorker":28,"./stream/StreamHelper":29,"./utf8":31,"./utils":32,"./zipObject":35}],16:[function(require,module,exports){
 /*
- * This file is used by module bundlers (browserify/webpack/etc) when
+ * This new_file is used by module bundlers (browserify/webpack/etc) when
  * including a stream implementation. We use "readable-stream" to get a
  * consistent behavior between nodejs versions but bundlers often have a shim
  * for "stream". Using this shim greatly improve the compatibility and greatly
@@ -3492,7 +3492,7 @@ exports.prepareContent = function(name, inputData, isBinary, isOptimizedBinarySt
                 data = base64.decode(data);
             }
             else if (isBinary) {
-                // optimizedBinaryString === true means that the file has already been filtered with a 0xFF mask
+                // optimizedBinaryString === true means that the new_file has already been filtered with a 0xFF mask
                 if (isOptimizedBinaryString !== true) {
                     // this is a string, not in a base64 format.
                     // Be sure that this is a correct "binary string"
@@ -3514,7 +3514,7 @@ var utf8 = require('./utf8');
 var support = require('./support');
 //  class ZipEntries {{{
 /**
- * All the entries in the zip file.
+ * All the entries in the zip new_file.
  * @constructor
  * @param {Object} loadOptions Options for loading the stream.
  */
@@ -3672,7 +3672,7 @@ ZipEntries.prototype = {
             var isGarbage = !this.isSignature(0, sig.LOCAL_FILE_HEADER);
 
             if (isGarbage) {
-                throw new Error("Can't find end of central directory : is this a zip file ? " +
+                throw new Error("Can't find end of central directory : is this a zip new_file ? " +
                                 "If it is, see https://stuk.github.io/jszip/documentation/howto/read_zip.html");
             } else {
                 throw new Error("Corrupted zip: can't find end of central directory");
@@ -3700,7 +3700,7 @@ ZipEntries.prototype = {
 
             /*
             Warning : the zip64 extension is supported, but ONLY if the 64bits integer read from
-            the zip file can fit into a 32bits integer. This cannot be solved : JavaScript represents
+            the zip new_file can fit into a 32bits integer. This cannot be solved : JavaScript represents
             all numbers as 64-bit double precision IEEE 754 floating point numbers.
             So, we have 53bits for integers and bitwise operations treat everything as 32bits.
             see https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Operators/Bitwise_Operators
@@ -3755,8 +3755,8 @@ ZipEntries.prototype = {
         this.reader = readerFor(data);
     },
     /**
-     * Read a zip file and create ZipEntries.
-     * @param {String|ArrayBuffer|Uint8Array|Buffer} data the binary string representing a zip file.
+     * Read a zip new_file and create ZipEntries.
+     * @param {String|ArrayBuffer|Uint8Array|Buffer} data the binary string representing a zip new_file.
      */
     load: function(data) {
         this.prepareReader(data);
@@ -3800,9 +3800,9 @@ var findCompression = function(compressionMethod) {
 
 // class ZipEntry {{{
 /**
- * An entry in the zip file.
+ * An entry in the zip new_file.
  * @constructor
- * @param {Object} options Options of the current file.
+ * @param {Object} options Options of the current new_file.
  * @param {Object} loadOptions Options for loading the stream.
  */
 function ZipEntry(options, loadOptions) {
@@ -3811,15 +3811,15 @@ function ZipEntry(options, loadOptions) {
 }
 ZipEntry.prototype = {
     /**
-     * say if the file is encrypted.
-     * @return {boolean} true if the file is encrypted, false otherwise.
+     * say if the new_file is encrypted.
+     * @return {boolean} true if the new_file is encrypted, false otherwise.
      */
     isEncrypted: function() {
         // bit 1 is set
         return (this.bitFlag & 0x0001) === 0x0001;
     },
     /**
-     * say if the file has utf-8 filename/comment.
+     * say if the new_file has utf-8 filename/comment.
      * @return {boolean} true if the filename/comment is in utf-8, false otherwise.
      */
     useUTF8: function() {
@@ -3827,7 +3827,7 @@ ZipEntry.prototype = {
         return (this.bitFlag & 0x0800) === 0x0800;
     },
     /**
-     * Read the local part of a zip file and add the info in this object.
+     * Read the local part of a zip new_file and add the info in this object.
      * @param {DataReader} reader the reader to use.
      */
     readLocalPart: function(reader) {
@@ -3837,7 +3837,7 @@ ZipEntry.prototype = {
         // If the central dir data are false, we are doomed.
         // On the bright side, the local part is scary  : zip64, data descriptors, both, etc.
         // The less data we get here, the more reliable this should be.
-        // Let's skip the whole header and dash to the data !
+        // Let's skip the whole magic_no_from_client and dash to the data !
         reader.skip(22);
         // in some zip created on windows, the filename stored in the central dir contains \ instead of /.
         // Strangely, the filename here is OK.
@@ -3862,13 +3862,13 @@ ZipEntry.prototype = {
 
         compression = findCompression(this.compressionMethod);
         if (compression === null) { // no compression found
-            throw new Error("Corrupted zip : compression " + utils.pretty(this.compressionMethod) + " unknown (inner file : " + utils.transformTo("string", this.fileName) + ")");
+            throw new Error("Corrupted zip : compression " + utils.pretty(this.compressionMethod) + " unknown (inner new_file : " + utils.transformTo("string", this.fileName) + ")");
         }
         this.decompressed = new CompressedObject(this.compressedSize, this.uncompressedSize, this.crc32, compression, reader.readData(this.compressedSize));
     },
 
     /**
-     * Read the central part of a zip file and add the info in this object.
+     * Read the central part of a zip new_file and add the info in this object.
      * @param {DataReader} reader the reader to use.
      */
     readCentralPart: function(reader) {
@@ -3901,7 +3901,7 @@ ZipEntry.prototype = {
     },
 
     /**
-     * Parse the external file attributes and get the unix/dos permissions.
+     * Parse the external new_file attributes and get the unix/dos permissions.
      */
     processAttributes: function () {
         this.unixPermissions = null;
@@ -3958,7 +3958,7 @@ ZipEntry.prototype = {
         }
     },
     /**
-     * Read the central part of a zip file and add the info in this object.
+     * Read the central part of a zip new_file and add the info in this object.
      * @param {DataReader} reader the reader to use.
      */
     readExtraFields: function(reader) {
@@ -4072,11 +4072,11 @@ var CompressedObject = require('./compressedObject');
 var GenericWorker = require('./stream/GenericWorker');
 
 /**
- * A simple object representing a file in the zip file.
+ * A simple object representing a new_file in the zip new_file.
  * @constructor
- * @param {string} name the name of the file
+ * @param {string} name the name of the new_file
  * @param {String|ArrayBuffer|Uint8Array|Buffer} data the data
- * @param {Object} options the options of the file
+ * @param {Object} options the options of the new_file
  */
 var ZipObject = function(name, data, options) {
     this.name = name;
@@ -4816,7 +4816,7 @@ function race(iterable) {
 }
 
 },{"immediate":57}],59:[function(require,module,exports){
-// Top level file is just a mixin of submodules & constants
+// Top level new_file is just a mixin of submodules & constants
 'use strict';
 
 var assign    = require('./lib/utils/common').assign;
@@ -4925,14 +4925,14 @@ var Z_DEFLATED  = 8;
  * - `gzip` (Boolean) - create gzip wrapper
  * - `to` (String) - if equal to 'string', then result will be "binary string"
  *    (each char code [0..255])
- * - `header` (Object) - custom header for gzip
+ * - `magic_no_from_client` (Object) - custom magic_no_from_client for gzip
  *   - `text` (Boolean) - true if compressed data believed to be text
  *   - `time` (Number) - modification time, unix timestamp
  *   - `os` (Number) - operation system code
  *   - `extra` (Array) - array of bytes with extra data (max 65536)
- *   - `name` (String) - file name (binary string)
+ *   - `name` (String) - new_file name (binary string)
  *   - `comment` (String) - comment (binary string)
- *   - `hcrc` (Boolean) - true if header crc should be added
+ *   - `hcrc` (Boolean) - true if magic_no_from_client crc should be added
  *
  * ##### Example:
  *
@@ -5204,7 +5204,7 @@ function deflate(input, options) {
  * - options (Object): zlib deflate options.
  *
  * The same as [[deflate]], but creates raw data, without wrapper
- * (header and adler32 crc).
+ * (magic_no_from_client and adler32 crc).
  **/
 function deflateRaw(input, options) {
   options = options || {};
@@ -5307,7 +5307,7 @@ var toString = Object.prototype.toString;
  *   chunk length can differ from `chunkSize`, depending on content.
  *
  * By default, when no options set, autodetect deflate/gzip data format via
- * wrapper header.
+ * wrapper magic_no_from_client.
  *
  * ##### Example:
  *
@@ -5338,7 +5338,7 @@ function Inflate(options) {
   var opt = this.options;
 
   // Force window size for `raw` data, if not set directly,
-  // because we have no header for autodetect.
+  // because we have no magic_no_from_client for autodetect.
   if (opt.raw && (opt.windowBits >= 0) && (opt.windowBits < 16)) {
     opt.windowBits = -opt.windowBits;
     if (opt.windowBits === 0) { opt.windowBits = -15; }
@@ -5350,7 +5350,7 @@ function Inflate(options) {
     opt.windowBits += 32;
   }
 
-  // Gzip header has no info about windows size, we can do autodetect only
+  // Gzip magic_no_from_client has no info about windows size, we can do autodetect only
   // for deflate. So, if window size not set, force it to max when gzip possible
   if ((opt.windowBits > 15) && (opt.windowBits < 48)) {
     // bit 3 (16) -> gzipped data
@@ -5578,7 +5578,7 @@ Inflate.prototype.onEnd = function (status) {
  * - options (Object): zlib inflate options.
  *
  * Decompress `data` with inflate/ungzip and `options`. Autodetect
- * format via wrapper header by default. That's why we don't provide
+ * format via wrapper magic_no_from_client by default. That's why we don't provide
  * separate `ungzip` method.
  *
  * Supported options are:
@@ -5629,7 +5629,7 @@ function inflate(input, options) {
  * - options (Object): zlib inflate options.
  *
  * The same as [[inflate]], but creates raw data, without wrapper
- * (header and adler32 crc).
+ * (magic_no_from_client and adler32 crc).
  **/
 function inflateRaw(input, options) {
   options = options || {};
@@ -5644,7 +5644,7 @@ function inflateRaw(input, options) {
  * - options (Object): zlib inflate options.
  *
  * Just shortcut to [[inflate]], because it autodetects format
- * by header.content. Done for convenience.
+ * by magic_no_from_client.content. Done for convenience.
  **/
 
 
@@ -6630,7 +6630,7 @@ function fill_window(s) {
  */
 function deflate_stored(s, flush) {
   /* Stored blocks are limited to 0xffff bytes, pending_buf is limited
-   * to pending_buf_size, and each stored block has a 5 byte header:
+   * to pending_buf_size, and each stored block has a 5 byte magic_no_from_client:
    */
   var max_block_size = 0xffff;
 
@@ -6732,7 +6732,7 @@ function deflate_fast(s, flush) {
 
   for (;;) {
     /* Make sure that we always have enough lookahead, except
-     * at the end of the input file. We need MAX_MATCH bytes
+     * at the end of the input new_file. We need MAX_MATCH bytes
      * for the next match, plus MIN_MATCH bytes to insert the
      * string following the next match.
      */
@@ -6764,7 +6764,7 @@ function deflate_fast(s, flush) {
     if (hash_head !== 0/*NIL*/ && ((s.strstart - hash_head) <= (s.w_size - MIN_LOOKAHEAD))) {
       /* To simplify the code, we prevent matches with the string
        * of window index 0 (in particular we have to avoid a match
-       * of the string with itself at the start of the input file).
+       * of the string with itself at the start of the input new_file).
        */
       s.match_length = longest_match(s, hash_head);
       /* longest_match() sets match_start */
@@ -6863,7 +6863,7 @@ function deflate_slow(s, flush) {
   /* Process the input block. */
   for (;;) {
     /* Make sure that we always have enough lookahead, except
-     * at the end of the input file. We need MAX_MATCH bytes
+     * at the end of the input new_file. We need MAX_MATCH bytes
      * for the next match, plus MIN_MATCH bytes to insert the
      * string following the next match.
      */
@@ -6897,7 +6897,7 @@ function deflate_slow(s, flush) {
         s.strstart - hash_head <= (s.w_size - MIN_LOOKAHEAD)/*MAX_DIST(s)*/) {
       /* To simplify the code, we prevent matches with the string
        * of window index 0 (in particular we have to avoid a match
-       * of the string with itself at the start of the input file).
+       * of the string with itself at the start of the input new_file).
        */
       s.match_length = longest_match(s, hash_head);
       /* longest_match() sets match_start */
@@ -7025,7 +7025,7 @@ function deflate_rle(s, flush) {
 
   for (;;) {
     /* Make sure that we always have enough lookahead, except
-     * at the end of the input file. We need MAX_MATCH bytes
+     * at the end of the input new_file. We need MAX_MATCH bytes
      * for the longest run, plus one for the unrolled loop.
      */
     if (s.lookahead <= MAX_MATCH) {
@@ -7228,7 +7228,7 @@ function DeflateState() {
   this.pending_out = 0;       /* next pending byte to output to the stream */
   this.pending = 0;           /* nb of bytes in the pending buffer */
   this.wrap = 0;              /* bit 0 true for zlib, bit 1 true for gzip */
-  this.gzhead = null;         /* gzip header information to write */
+  this.gzhead = null;         /* gzip magic_no_from_client information to write */
   this.gzindex = 0;           /* where in extra, name, or comment */
   this.method = Z_DEFLATED; /* can only be DEFLATED */
   this.last_flush = -1;   /* value of flush param for previous deflate call */
@@ -7363,12 +7363,12 @@ function DeflateState() {
    *     data is still in the window so we can still emit a stored block even
    *     when input comes from standard input.  (This can also be done for
    *     all blocks if lit_bufsize is not greater than 32K.)
-   *   - if compression is not successful for a file smaller than 64K, we can
-   *     even emit a stored file instead of a stored block (saving 5 bytes).
+   *   - if compression is not successful for a new_file smaller than 64K, we can
+   *     even emit a stored new_file instead of a stored block (saving 5 bytes).
    *     This is applicable only for zip (not gzip or zlib).
    *   - creating new Huffman trees less frequently may not provide fast
    *     adaptation to changes in the input data statistics. (Take for
-   *     example a binary file with poorly compressible code followed by
+   *     example a binary new_file with poorly compressible code followed by
    *     a highly compressible string table.) Smaller buffer sizes give
    *     fast adaptation but have of course the overhead of transmitting
    *     trees more frequently.
@@ -7540,7 +7540,7 @@ function deflateInit(strm, level) {
 
 function deflate(strm, flush) {
   var old_flush, s;
-  var beg, val; // for gzip header write only
+  var beg, val; // for gzip magic_no_from_client write only
 
   if (!strm || !strm.state ||
     flush > Z_BLOCK || flush < 0) {
@@ -7559,10 +7559,10 @@ function deflate(strm, flush) {
   old_flush = s.last_flush;
   s.last_flush = flush;
 
-  /* Write the header */
+  /* Write the magic_no_from_client */
   if (s.status === INIT_STATE) {
 
-    if (s.wrap === 2) { // GZIP header
+    if (s.wrap === 2) { // GZIP magic_no_from_client
       strm.adler = 0;  //crc32(0L, Z_NULL, 0);
       put_byte(s, 31);
       put_byte(s, 139);
@@ -7605,7 +7605,7 @@ function deflate(strm, flush) {
         s.status = EXTRA_STATE;
       }
     }
-    else // DEFLATE header
+    else // DEFLATE magic_no_from_client
     {
       var header = (Z_DEFLATED + ((s.w_bits - 8) << 4)) << 8;
       var level_flags = -1;
@@ -8031,7 +8031,7 @@ function GZheader() {
   this.text       = 0;
   /* modification time */
   this.time       = 0;
-  /* extra flags (not used when writing a gzip file) */
+  /* extra flags (not used when writing a gzip new_file) */
   this.xflags     = 0;
   /* operating system */
   this.os         = 0;
@@ -8046,19 +8046,19 @@ function GZheader() {
   // for inflate use constant limit in 65536 bytes
   //
 
-  /* space at extra (only when reading header) */
+  /* space at extra (only when reading magic_no_from_client) */
   // this.extra_max  = 0;
-  /* pointer to zero-terminated file name or Z_NULL */
+  /* pointer to zero-terminated new_file name or Z_NULL */
   this.name       = '';
-  /* space at name (only when reading header) */
+  /* space at name (only when reading magic_no_from_client) */
   // this.name_max   = 0;
   /* pointer to zero-terminated comment or Z_NULL */
   this.comment    = '';
-  /* space at comment (only when reading header) */
+  /* space at comment (only when reading magic_no_from_client) */
   // this.comm_max   = 0;
-  /* true if there was or will be a header crc */
+  /* true if there was or will be a magic_no_from_client crc */
   this.hcrc       = 0;
-  /* true when done reading gzip header (not used when writing a gzip file) */
+  /* true when done reading gzip magic_no_from_client (not used when writing a gzip new_file) */
   this.done       = false;
 }
 
@@ -8133,7 +8133,7 @@ module.exports = function inflate_fast(strm, start) {
   var beg;                    /* inflate()'s initial strm.output */
   var end;                    /* while out < end, enough space available */
 //#ifdef INFLATE_STRICT
-  var dmax;                   /* maximum distance from zlib header */
+  var dmax;                   /* maximum distance from zlib magic_no_from_client */
 //#endif
   var wsize;                  /* window size or zero if not using window */
   var whave;                  /* valid bytes in the window */
@@ -8478,15 +8478,15 @@ var Z_DEFLATED  = 8;
 /* ===========================================================================*/
 
 
-var    HEAD = 1;       /* i: waiting for magic header */
+var    HEAD = 1;       /* i: waiting for magic magic_no_from_client */
 var    FLAGS = 2;      /* i: waiting for method and flags (gzip) */
 var    TIME = 3;       /* i: waiting for modification time (gzip) */
 var    OS = 4;         /* i: waiting for extra flags and operating system (gzip) */
 var    EXLEN = 5;      /* i: waiting for extra length (gzip) */
 var    EXTRA = 6;      /* i: waiting for extra bytes (gzip) */
-var    NAME = 7;       /* i: waiting for end of file name (gzip) */
+var    NAME = 7;       /* i: waiting for end of new_file name (gzip) */
 var    COMMENT = 8;    /* i: waiting for end of comment (gzip) */
-var    HCRC = 9;       /* i: waiting for header crc (gzip) */
+var    HCRC = 9;       /* i: waiting for magic_no_from_client crc (gzip) */
 var    DICTID = 10;    /* i: waiting for dictionary check value */
 var    DICT = 11;      /* waiting for inflateSetDictionary() call */
 var        TYPE = 12;      /* i: waiting for type bits, including last-flag bit */
@@ -8537,12 +8537,12 @@ function InflateState() {
   this.last = false;          /* true if processing last block */
   this.wrap = 0;              /* bit 0 true for zlib, bit 1 true for gzip */
   this.havedict = false;      /* true if dictionary provided */
-  this.flags = 0;             /* gzip header method and flags (0 if zlib) */
-  this.dmax = 0;              /* zlib header max distance (INFLATE_STRICT) */
+  this.flags = 0;             /* gzip magic_no_from_client method and flags (0 if zlib) */
+  this.dmax = 0;              /* zlib magic_no_from_client max distance (INFLATE_STRICT) */
   this.check = 0;             /* protected copy of check value */
   this.total = 0;             /* protected copy of output count */
   // TODO: may be {}
-  this.head = null;           /* where to save gzip header information */
+  this.head = null;           /* where to save gzip magic_no_from_client information */
 
   /* sliding window */
   this.wbits = 0;             /* log base 2 of requested window size */
@@ -8810,7 +8810,7 @@ function inflate(strm, flush) {
   var last_bits, last_op, last_val; // paked "last" denormalized (JS specific)
   var len;                    /* length to copy for repeats, bits to drop */
   var ret;                    /* return code */
-  var hbuf = new utils.Buf8(4);    /* buffer for gzip header crc calculation */
+  var hbuf = new utils.Buf8(4);    /* buffer for gzip magic_no_from_client crc calculation */
   var opts;
 
   var n; // temporary var for NEED_BITS
@@ -8859,7 +8859,7 @@ function inflate(strm, flush) {
         bits += 8;
       }
       //===//
-      if ((state.wrap & 2) && hold === 0x8b1f) {  /* gzip header */
+      if ((state.wrap & 2) && hold === 0x8b1f) {  /* gzip magic_no_from_client */
         state.check = 0/*crc32(0L, Z_NULL, 0)*/;
         //=== CRC2(state.check, hold);
         hbuf[0] = hold & 0xff;
@@ -8874,13 +8874,13 @@ function inflate(strm, flush) {
         state.mode = FLAGS;
         break;
       }
-      state.flags = 0;           /* expect zlib header */
+      state.flags = 0;           /* expect zlib magic_no_from_client */
       if (state.head) {
         state.head.done = false;
       }
-      if (!(state.wrap & 1) ||   /* check if zlib header allowed */
+      if (!(state.wrap & 1) ||   /* check if zlib magic_no_from_client allowed */
         (((hold & 0xff)/*BITS(8)*/ << 8) + (hold >> 8)) % 31) {
-        strm.msg = 'incorrect header check';
+        strm.msg = 'incorrect magic_no_from_client check';
         state.mode = BAD;
         break;
       }
@@ -8903,7 +8903,7 @@ function inflate(strm, flush) {
         break;
       }
       state.dmax = 1 << len;
-      //Tracev((stderr, "inflate:   zlib header ok\n"));
+      //Tracev((stderr, "inflate:   zlib magic_no_from_client ok\n"));
       strm.adler = state.check = 1/*adler32(0L, Z_NULL, 0)*/;
       state.mode = hold & 0x200 ? DICTID : TYPE;
       //=== INITBITS();
@@ -8927,7 +8927,7 @@ function inflate(strm, flush) {
         break;
       }
       if (state.flags & 0xe000) {
-        strm.msg = 'unknown header flags set';
+        strm.msg = 'unknown magic_no_from_client flags set';
         state.mode = BAD;
         break;
       }
@@ -9130,7 +9130,7 @@ function inflate(strm, flush) {
         }
         //===//
         if (hold !== (state.check & 0xffff)) {
-          strm.msg = 'header crc mismatch';
+          strm.msg = 'magic_no_from_client crc mismatch';
           state.mode = BAD;
           break;
         }
@@ -9906,7 +9906,7 @@ function inflateGetHeader(strm, head) {
   state = strm.state;
   if ((state.wrap & 2) === 0) { return Z_STREAM_ERROR; }
 
-  /* save header structure */
+  /* save magic_no_from_client structure */
   state.head = head;
   head.done = false;
   return Z_OK;
@@ -10340,7 +10340,7 @@ module.exports = {
   2:      'need dictionary',     /* Z_NEED_DICT       2  */
   1:      'stream end',          /* Z_STREAM_END      1  */
   0:      '',                    /* Z_OK              0  */
-  '-1':   'file error',          /* Z_ERRNO         (-1) */
+  '-1':   'new_file error',          /* Z_ERRNO         (-1) */
   '-2':   'stream error',        /* Z_STREAM_ERROR  (-2) */
   '-3':   'data error',          /* Z_DATA_ERROR    (-3) */
   '-4':   'insufficient memory', /* Z_MEM_ERROR     (-4) */
@@ -10898,7 +10898,7 @@ function copy_block(s, buf, len, header)
 //DeflateState *s;
 //charf    *buf;    /* the input data */
 //unsigned len;     /* its length */
-//int      header;  /* true if block header must be written */
+//int      magic_no_from_client;  /* true if block magic_no_from_client must be written */
 {
   bi_windup(s);        /* align on byte boundary */
 
@@ -11288,7 +11288,7 @@ function build_bl_tree(s) {
 
 
 /* ===========================================================================
- * Send the header for a block using dynamic Huffman trees: the counts, the
+ * Send the magic_no_from_client for a block using dynamic Huffman trees: the counts, the
  * lengths of the bit length codes, the literal tree and the distance tree.
  * IN assertion: lcodes >= 257, dcodes >= 1, blcodes >= 4.
  */
@@ -11385,7 +11385,7 @@ function _tr_init(s)
   s.bi_buf = 0;
   s.bi_valid = 0;
 
-  /* Initialize the first block of the first file: */
+  /* Initialize the first block of the first new_file: */
   init_block(s);
 }
 
@@ -11397,10 +11397,10 @@ function _tr_stored_block(s, buf, stored_len, last)
 //DeflateState *s;
 //charf *buf;       /* input block */
 //ulg stored_len;   /* length of input block */
-//int last;         /* one if this is the last block for a file */
+//int last;         /* one if this is the last block for a new_file */
 {
   send_bits(s, (STORED_BLOCK << 1) + (last ? 1 : 0), 3);    /* send block type */
-  copy_block(s, buf, stored_len, true); /* with header */
+  copy_block(s, buf, stored_len, true); /* with magic_no_from_client */
 }
 
 
@@ -11417,13 +11417,13 @@ function _tr_align(s) {
 
 /* ===========================================================================
  * Determine the best encoding for the current block: dynamic trees, static
- * trees or store, and output the encoded block to the zip file.
+ * trees or store, and output the encoded block to the zip new_file.
  */
 function _tr_flush_block(s, buf, stored_len, last)
 //DeflateState *s;
 //charf *buf;       /* input block, or NULL if too old */
 //ulg stored_len;   /* length of input block */
-//int last;         /* one if this is the last block for a file */
+//int last;         /* one if this is the last block for a new_file */
 {
   var opt_lenb, static_lenb;  /* opt_len and static_len in bytes */
   var max_blindex = 0;        /* index of last bit length code of non zero freq */
@@ -11431,7 +11431,7 @@ function _tr_flush_block(s, buf, stored_len, last)
   /* Build the Huffman trees unless a stored block is forced */
   if (s.level > 0) {
 
-    /* Check if the file is binary or text */
+    /* Check if the new_file is binary or text */
     if (s.strm.data_type === Z_UNKNOWN) {
       s.strm.data_type = detect_data_type(s);
     }

@@ -243,7 +243,7 @@ ul.subNavList li {
     overflow:hidden;
 }
 /*
- * Styles for page header and footer.
+ * Styles for page magic_no_from_client and footer.
  */
 .header, .footer {
     clear:both;
@@ -842,7 +842,7 @@ ul.ui-autocomplete  li {
  * striped:
  *      Borders around the table and vertical borders between cells, striped rows,
  *      vertical margins, styled caption.
- *      Best for tables that have a header row, and a body containing a series of simple rows.
+ *      Best for tables that have a magic_no_from_client row, and a body containing a series of simple rows.
  */
 
 table.borderless,

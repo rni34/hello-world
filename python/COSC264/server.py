@@ -1,64 +1,69 @@
 import socket
 import sys
 import datetime
+import os
 import time
 # AF_INET means IPv4
 # Use SOCK_Stream when using TCP
-MAGIC_No = 0x497E
-IP = '132.181.13.184'
-try:
-    port_number = sys.argv[1]
-except:
-    port_number = 1026
+MAGIC_No = 0x47E
+IP = '0.0.0.0'
+PORT_NUMBER = int(sys.argv[1])
 
 
-def check_header(num):
-    """checks the header which will be give in byte
+def check_magic_no(magic_no):
+    """checks the magic_no_from_client which will be give in byte
     tries to confirm that it is in 0x497E
     raises an error  if its not a 0x497E"""
-    if int.from_bytes(num, 'big') != MAGIC_No:
-        print('Magic No is wrong\n expected 0x497E\n got {}'.format(hex(num)))
-        raise OSError
-    print('Magic number check passed\n')
+    magic_no = magic_no.encode('utf-8')
+    if int.from_bytes(magic_no, 'big') != 0x497E:
+        print('Unacceptable Magic number: Expected 0x497E got {}.'.format(hex(magic_no)))
+        sys.exit(1)
+    print('Magic number accepted.\n')
 
 
-def port_number_checker(port_number):
+def check_port_number(port):
     """checks the port number, returns true if port is in range 1024 to 64000  """
-    if port_number not in range(1024, 64001):
-        print('port number is not in range 1024 to 64000\n')
-        raise OSError
-    print('port number check passed\n')
-
-
-def check_bind(port_number):
-    '''tries to bind the socket from client.py, raises an error if something goes wrong while that'''
     try:
-        s.bind((IP, port_number))
-        print("server has been created\n")
-    except OSError:
-        print("unable to bind the socket, could be IP already existed")
+        if port not in range(1024, 64001):
+            print('Unacceptable port number: Must be in range between 1024 to 64000.\n')
+            sys.exit(1)
+        else:
+            print('Port number accepted.\n')
+
+    except Exception as e:
+        print('Error while checking the port number {}.'.format(e))
         sys.exit(1)
 
 
-def check_packat_type(packet_type):
+def check_bind(s):
+    """tries to bind the socket from client.py, raises an error if something goes wrong while that"""
+    try:
+        s.bind((IP, PORT_NUMBER))
+        print("The server has been created.\n")
+    except OSError:
+        print("Unable to bind the socket: IP already in used.")
+        sys.exit(1)
+
+
+def check_packet_type(packet_type):
     try:
         if packet_type != 1:
-            print('check packet type error got type {}\nexpected type 1\n'.format(packet_type))
+            print('Unacceptable Packet type: Got type {}, expected type 1.\n'.format(packet_type))
             raise OSError
-        print('packet check passed\n')
-    except:
-        print('check packet type error got type {}\nexpected type int\n'.format(type(packet_type)))
-        print('error converting to bytes, its type might not be a byte')
-        raise OSError
+        print('Packet type accepted.\n')
+    except():
+        print('Packet type error: Got type {} expected type int.\n'.format(type(packet_type)))
+        print('Unable to convert into bytes.')
+        sys.exit(1)
 
 
 def check_listen(s, num):
     try:
         s.listen(num)
-        print('check listen passed\n')
-    except:
-        print('error trying to listen\n')
-        raise OSError
+        print('Listening...\n')
+    except():
+        print('Error trying to listen.\n')
+        sys.exit(1)
 
 
 def check_accept(s):
@@ -69,61 +74,78 @@ def check_accept(s):
     :return connection, address:
     """
     try:
-        conection, address = s.accept()
+        connection, address = s.accept()
         s.settimeout(1)
-        print('check accept passed\n')
-        print('connection has been established successfully')
+        print('Connection established successfully')
         print(datetime.datetime.now())
-        print('client IP address {} port number {}\n'.format(address[0], address[1]))
-    except:
-        print('error while accepting\n')
-        raise OSError
-    return conection, address
+        print('Client IP address {} port number {}\n'.format(address[0], address[1]))
+    except Exception as e:
+        print('Error while accepting {}\n'.format(str(e)))
+
+        sys.exit(1)
+    return connection, address
 
 
 def is_file_valid(file_name):
     try:
-        file = open(file_name)
+        file = open(file_name, 'rb')
         infile = file.read()
         file.close()
-        print('check open passed')
-    except:
-        print('error while opening a file')
-        raise OSError
+        print('File read successfully.')
+    except Exception as e:
+        print('Error while opening a file', str(e), '\n')
+        sys.exit(1)
+
     return infile
 
 
+def main():
+    status_code = 1
+    try:
+        check_port_number(PORT_NUMBER)
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-with s:
-    check_bind(port_number)
-    check_listen(s, 1)
-    while True:
-        print('ready to accept connection from clients\n')
-        connection, addr = check_accept(s)
-        with connection:
-            file_request = bytearray() + connection.recv(4096)
+    except Exception as e:
+        print('Error while trying to check the port number {}\n'.format(e))
+        sys.exit(1)
 
-            header = file_request[:2]
-            check_header(header)
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    with s:
+        check_bind(s)
+        check_listen(s, 1)
+        while True:
+            print('Awaiting the clients to connect...\n')
+            connection, address = check_accept(s)
+            with connection:
+                file_request = bytearray() + connection.recv(4096)
 
-            packet_type = file_request[2]
-            check_packat_type(packet_type)
+                magic_no_from_client = file_request[:2].decode()
 
-            file_name_len = file_request[3] + file_request[4]
+                check_magic_no(magic_no_from_client)
 
-            file_name = file_request[5:].decode('utf-8')
+                check_packet_type(file_request[2])
 
-            infile = is_file_valid(file_name)
-            print(len(infile), len(infile).to_bytes(4, 'big'))
-            #gives back the data (it has to be bytes)
-            infile_bytes = infile.encode('utf-8')
-            print("{} bytes has been transferred".format(len(infile_bytes)))
-            status_code = 0x01
-            file_response = bytearray() + 0x497E.to_bytes(2, 'big') + 0x02.to_bytes(1,'big') + 0x01.to_bytes(1,'big') + len(infile_bytes).to_bytes(4, 'big') + infile_bytes
-            print(file_response)
-            connection.send(file_response)
-            s.settimeout(None)
+                # file_name_len = file_request[3] + file_request[4]
+
+                file_name = file_request[5:].decode('utf-8')
+
+                if os.path.exists(file_name):
+                    infile = is_file_valid(file_name)
+                else:
+                    infile = b''
+                    status_code = 0
+
+                print("{} bytes has been transferred.".format(len(infile)))
+
+                file_response = bytearray() + 0x497E.to_bytes(2, 'big') + 0x02.to_bytes(1, 'big') + \
+                    status_code.to_bytes(1, 'big') + len(infile).to_bytes(4, 'big') + infile
+
+                connection.send(file_response)
+
+                s.settimeout(None)
+
+
+if __name__ == "__main__":
+    main()
 
 # except:
 #     print("socket has failed working")
