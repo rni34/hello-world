@@ -9,7 +9,7 @@ IP = '132.181.13.184'
 try:
     port_number = sys.argv[1]
 except:
-    port_number = 1024
+    port_number = 1026
 
 
 def check_header(num):
@@ -115,13 +115,14 @@ with s:
             file_name = file_request[5:].decode('utf-8')
 
             infile = is_file_valid(file_name)
+            print(len(infile), len(infile).to_bytes(4, 'big'))
             #gives back the data (it has to be bytes)
             infile_bytes = infile.encode('utf-8')
             print("{} bytes has been transferred".format(len(infile_bytes)))
             status_code = 0x01
-            file_response = bytearray([0x49, 0x7E, 0x02, 0x01]) + file_name_len.to_bytes(4, 'big') + infile_bytes
-            #connection.send(file_response)
-            connection.send(infile_bytes)
+            file_response = bytearray() + 0x497E.to_bytes(2, 'big') + 0x02.to_bytes(1,'big') + 0x01.to_bytes(1,'big') + len(infile_bytes).to_bytes(4, 'big') + infile_bytes
+            print(file_response)
+            connection.send(file_response)
             s.settimeout(None)
 
 # except:
