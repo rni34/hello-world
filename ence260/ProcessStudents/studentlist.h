@@ -20,4 +20,6 @@ Student* readStudents(FILE* file);
 // to the first student in the list.
 void printStudents(const Student* student);
 
+const Student* findStudent(const Student* studentList, const char* name);
+
 #endif /* end ifndef STUDENT_LIST_H */

@@ -8,12 +8,25 @@
 #include <stdlib.h>
 #include "student.h"
 #include "studentlist.h"
-
+#include <string.h>
 // Reads a list of students from a given file. Input stops when
 // a blank line is read, or an EOF occurs, or an illegal input
 // line is encountered.
 // Returns a pointer to the first student in the list or NULL if no
 // valid student records could be read.
+
+const Student* findStudent(const Student* studentList, const char* name)
+{
+    //int done = 0; //False
+    while (studentList != NULL){
+        if(strcmp(studentList->name, name) == 0 )
+            {
+                break;
+            }
+        studentList = studentList->next;
+    }
+    return studentList;
+}
 Student* readStudents(FILE *file)
 {
     Student* first = NULL;     // Pointer to the first student in the list

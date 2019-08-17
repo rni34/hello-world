@@ -10,7 +10,7 @@ CFLAGS = -g -std=c99 -Wall -Werror
 
 # Main target: create executable by linking the object files
 processstudents: processstudents.o student.o studentlist.o
-	gcc processstudents.o student.o studentlist.o -o processstudents
+	gcc processstudents.o student.o studentlist.o -o Processstudents
 
 
 # Intermediate targets: create object files from C source codes.
