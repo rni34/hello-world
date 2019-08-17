@@ -2,21 +2,6 @@ import socket
 import sys
 import os
 import traceback
-from threading import Timer
-
-
-# try:
-#     IP = sys.argv[1]
-#     port_number = int(sys.argv[2])
-#     file_name = sys.argv[3]
-#
-# except:
-#     #IP = '132.181.13.52' #jack
-#     IP = '0.0.0.0'
-#     #IP = '132.181.13.40'
-#     file_name = 'bean.png'
-#     port_number = 1024
-
 
 def check_magic_no(header):
     """checks the magic_no_from_client which will be give in byte
@@ -48,18 +33,26 @@ def check_packet_type(header):
         sys.exit(1)
 
 
-def check_port(port_number):
-    port_number = int(port_number)
-    """checks the port number, returns true if port is in range 1024 to 64000  """
+def process_port_number(port):
+    """
+    checks the port number, returns true if port is in range 1024 to 64000
+    if not the print the error and exit
+
+    :param port:
+    :return:
+    """
     try:
-        if port_number not in range(1024, 64001):
-            print('port number not in between 1024 and 64000\n')
+        port = int(port)
+        if port not in range(1024, 64001):
+            print('Unacceptable port number: Must be in range between 1024 to 64000.\n')
             sys.exit(1)
-        print('Check Port Number: Passed.\n')
-        return port_number
+        else:
+            print('Port number is valid. Your port number is {}\n'.format(port))
+            return port
 
     except:
         print(traceback.format_exc())
+        sys.exit(1)
 
 
 def check_file_exists(file_name):
@@ -73,26 +66,6 @@ def check_file_exists(file_name):
     except:
         print(traceback.format_exc())
         sys.exit(1)
-    # except Exception as e:
-    #     if e == FileNotFoundError:
-    #         print('new_file has recognised as unknown new_file, passed check filename  passed \n')
-    #     else:
-    #         print('error while tyring to open the file {}'.format(str(e)))
-
-
-# def create_ip_address(ip_address, port_number):
-#     """ tries to get the addres info of the socket and returns the information of the socket
-#         raises an error if something goes wrong while getting an information from the socket
-#     """
-#     try:
-#         socketfd = socket.getaddrinfo(ip_address, port_number)
-#         print(socketfd)
-#
-#     except:
-#         print('error looking for an hostname does not exist or an IP address given in dotted-decimal notation is not well-formed\n')
-#         sys.exit(1)
-#     print('IP address and port number are valid, socket has been created\n')
-#     return socketfd
 
 
 def check_status_code(header):
@@ -141,13 +114,14 @@ def check_file_length(length_file1, length_file2):
         sys.exit(1)
 
 
-def try_connect(s, ip_address, port_number):
+def try_connect(s, socket_fd):
     try:
-        s.connect((ip_address, port_number))
+        s.connect(socket_fd)
 
     except:
         print("Error while trying to connect:")
         print(traceback.format_exc())
+        s.close()
         sys.exit(1)
 
 
@@ -158,10 +132,21 @@ def try_recv(s, buffer):
     except:
         print("Error while trying to receive")
         print(traceback.format_exc())
+        s.close()
         sys.exit(1)
 
 
 def try_get_addrinfo(ip_address, port_number):
+    """
+    Tries to get a ip address and port number
+    if it fails then prints the error and exit
+    I go through this process because ip_address could be a name of the host instead of the
+    actual dotted decimal notation
+
+    :param ip_address:
+    :param port_number:
+    :return ip_address, port_number:
+    """
     try:
         return socket.getaddrinfo(ip_address, port_number)[0][4]
 
@@ -170,29 +155,56 @@ def try_get_addrinfo(ip_address, port_number):
         sys.exit(1)
 
 
-def try_send(s, file_request):
+def try_send(s, packet):
+    """
+    tries to send the packet if this process works then return True
+    if not then print the error then exit
+    :param s:
+    :param packet
+    """
     try:
-        s.sendall(file_request)
+        s.sendall(packet)
+
     except:
         print('Problem occurred while sending')
         print(traceback.format_exc())
+        sys.exit(1)
+
+
+def check_arguments():
+    """
+    checks the arguments that I was given
+    it should be just server.py and port_number but you never know!
+
+    checks the number of arguments if not 4 then print the error and exit
+    :return nothing :
+    """
+    try:
+        if len(sys.argv) != 4:
+            if len(sys.argv) < 4:
+                print('Expected 4 arguments, got only {}'.format(len(sys.argv)))
+
+            else:
+                print('Expected 4 arguments, got {}'.format(len(sys.argv)))
+            sys.exit(1)
+    except:
+        print(traceback.format_exc())
+        sys.exit(1)
 
 
 def main():
-    # create_ip_address(ip_address, port_number)
     try:
+        check_arguments()
+
         ip_address = sys.argv[1]
 
-        port_number = int(sys.argv[2])
-
-        port_number = check_port(port_number)
+        port_number = process_port_number(sys.argv[2])
 
         socket_fd = try_get_addrinfo(ip_address, port_number)
 
         print('client log', socket_fd)
 
         file_name = sys.argv[3]
-
 
     except:
         print(traceback.format_exc())
@@ -206,9 +218,9 @@ def main():
 
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 
-        try_connect(s, ip_address, port_number)
+        try_connect(s, socket_fd)
 
-        s.sendall(file_request)
+        try_send(s, file_request)
 
         header = try_recv(s, 8)
 
@@ -221,15 +233,17 @@ def main():
         try:
             if status_code == 1:
                 new_file = open(file_name, 'wb+')
-                done = False
-                while not done:
+                while True:
                     infile = s.recv(4096)
-                    if len(infile) <= 0:
-                        done = True
-                    else:
+                    print(infile)
+                    if len(infile) <= 4096:
                         new_file.write(infile)
+                        break
+                    new_file.write(infile)
+
             print('File has been successfully downloaded!\n')
             new_file.close()
+
 
         except Exception as e:
             print('Problem occurred while processing the file {}'.format(e))
@@ -241,6 +255,12 @@ def main():
             check_file_length(data_size_from_server, len(file_that_client_made))
 
             new_file.close()
+
+            s.close()
+
+            sys.exit(1)
+
+        s.close()
 
 
 if __name__ == "__main__":
