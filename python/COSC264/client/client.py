@@ -1,7 +1,6 @@
 import socket
 import sys
 import os
-import traceback
 
 def check_magic_no(header):
     """checks the magic_no_from_client which will be give in byte
@@ -10,26 +9,23 @@ def check_magic_no(header):
     try:
         magic_no = ((header[0] << 8) + header[1]).to_bytes(2, 'big')
         if int.from_bytes(magic_no, 'big') != 0x497E:
-            print('Unacceptable Magic number: Expected 0x497E got {}'.format(magic_no))
             sys.exit(1)
         print('Magic number acceptable.\n')
 
     except:
-        print(traceback.format_exc())
+        print('Error while checking the magic number\n')
+        sys.exit(1)
 
 
 def check_packet_type(header):
     try:
         packet_type = header[2]
         if packet_type != 2:
-            print('Unacceptable Packet type: Got type {}, expected type 1.\n'.format(packet_type))
             sys.exit(1)
         print('Packet type accepted.\n')
 
-    except():
-        print('Packet type error: Got type {} expected type int.\n'.format(type(packet_type)))
-        print('Unable to convert into bytes.')
-        print(traceback.format_exc())
+    except:
+        print('packet type was not 2\n')
         sys.exit(1)
 
 
@@ -37,34 +33,33 @@ def process_port_number(port):
     """
     checks the port number, returns true if port is in range 1024 to 64000
     if not the print the error and exit
-
+s
     :param port:
     :return:
     """
     try:
         port = int(port)
-        if port not in range(1024, 64001):
-            print('Unacceptable port number: Must be in range between 1024 to 64000.\n')
-            sys.exit(1)
-        else:
+        if port in range(1024, 64001):
             print('Port number is valid. Your port number is {}\n'.format(port))
             return port
 
+        else:
+            sys.exit(1)
+
     except:
-        print(traceback.format_exc())
+        print('Unacceptable port number: Must be in range between 1024 to 64000.\n')
         sys.exit(1)
 
 
 def check_file_exists(file_name):
     try:
         if os.path.exists(file_name) is True:
-            print('File already exists.\n')
-            sys.exit(1)
+            sys.exit()
         else:
             print('Check file: Passed.\n')
 
     except:
-        print(traceback.format_exc())
+        print('File already exists.\n')
         sys.exit(1)
 
 
@@ -75,22 +70,19 @@ def check_status_code(header):
             print("Status code: 1 (Processing)\n")
 
         elif status_code == 0:
-            print('Status code: 0 (Stopped process)\n')
-            print('Server does not have the file you requested\n')
             sys.exit(1)
         else:
-            print('Error while checking status code: File does not exists. {}\n'.format(status_code))
             sys.exit(1)
 
         return status_code
 
     except:
-        print(traceback.format_exc())
+        print('Status code was not 1 (Stopped processing)\n')
         sys.exit(1)
 
 
 def check_file_length(length_file1, length_file2):
-    '''
+    """
     param length_file1 which is the size of the new_file given from the file_response len_file from the server
     param lentgth file2 which is the size of the new_file that client has got from file_response file_Data
     checks the length of the new_file that you get from the server with what client has processed from the data.
@@ -100,7 +92,7 @@ def check_file_length(length_file1, length_file2):
     :param length_file1:
     :param length_file2:
     :return:
-    '''
+    """
 
     try:
         if length_file1 == length_file2:
@@ -108,9 +100,8 @@ def check_file_length(length_file1, length_file2):
         else:
             raise OSError
     except:
-        print('length of new_file name did not match\n')
-        print('Expected {} but, got {}.'.format(length_file1, length_file2 ))
-        print(traceback.format_exc())
+        print('length of new_file and len data did not match\n')
+        print('Expected {} but, got {}.'.format(length_file1, length_file2))
         sys.exit(1)
 
 
@@ -120,23 +111,23 @@ def try_connect(s, socket_fd):
 
     except:
         print("Error while trying to connect:")
-        print(traceback.format_exc())
         s.close()
         sys.exit(1)
 
 
-def try_recv(s, buffer):
+def try_receive(s, buffer):
+
     try:
+        print("client has received {} bytes from server".format(buffer))
         return s.recv(buffer)
 
     except:
         print("Error while trying to receive")
-        print(traceback.format_exc())
         s.close()
         sys.exit(1)
 
 
-def try_get_addrinfo(ip_address, port_number):
+def try_get_address_info(ip_address, port_number):
     """
     Tries to get a ip address and port number
     if it fails then prints the error and exit
@@ -151,7 +142,7 @@ def try_get_addrinfo(ip_address, port_number):
         return socket.getaddrinfo(ip_address, port_number)[0][4]
 
     except:
-        print(traceback.format_exc())
+        print("Error while trying to get a ip_address and port number of server")
         sys.exit(1)
 
 
@@ -167,7 +158,6 @@ def try_send(s, packet):
 
     except:
         print('Problem occurred while sending')
-        print(traceback.format_exc())
         sys.exit(1)
 
 
@@ -186,43 +176,77 @@ def check_arguments():
 
             else:
                 print('Expected 4 arguments, got {}'.format(len(sys.argv)))
+                
             sys.exit(1)
+
     except:
-        print(traceback.format_exc())
+        print('number of arguments must be 4')
         sys.exit(1)
 
 
-def main():
+def try_create_socket():
     try:
-        check_arguments()
-
-        ip_address = sys.argv[1]
-
-        port_number = process_port_number(sys.argv[2])
-
-        socket_fd = try_get_addrinfo(ip_address, port_number)
-
-        print('client log', socket_fd)
-
-        file_name = sys.argv[3]
+        return socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     except:
-        print(traceback.format_exc())
+        print("Error while creating socket")
         sys.exit(1)
 
-    check_file_exists(file_name)
 
-    file_len_bytes = len(file_name).to_bytes(2, 'big')
+def process_command_line():
+    """
+    checks the ip address and port number and file name
+    :return:
+    """
+    try:
+        check_arguments()  # check the number of arguments they should be client.py ip_address port_number file_name
 
-    file_request = bytearray() + 0x497E.to_bytes(2, 'big') + 0x01.to_bytes(1, 'big') + file_len_bytes + file_name.encode('utf-8')
+        ip_address = sys.argv[1]  # no checking at this phase, will check with port number later om
 
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        port_number = process_port_number(sys.argv[2])  # checks the port
 
+        socket_fd = try_get_address_info(ip_address, port_number)  # gets the ip_address and port
+
+        print('client log', socket_fd, '\n')  # prints the ip_address and port number of the client
+
+        file_name = sys.argv[3]  # gets the file name check it later on
+
+        return socket_fd, file_name
+
+    except Exception as e:
+        print(e)
+        sys.exit(1)
+
+
+def contact_server(socket_fd, file_name):
+    """
+    takes the socket_fd which has ip_address and port number of the server and name of the file
+    tris contact with the server to get the file from server
+
+    :param socket_fd:
+    :param file_name:
+    :return:
+    """
+    try:
+        check_file_exists(file_name)
+        file_len_bytes = len(file_name).to_bytes(2, 'big')
+        file_request = bytearray() + 0x497E.to_bytes(2, 'big') + 0x01.to_bytes(1, 'big') + file_len_bytes
+        file_request += file_name.encode('utf-8')
+
+    except:
+        print("Error while creating a file_request\n")
+        sys.exit(1)
+
+    s = try_create_socket()
+    s.settimeout(1)
+    total_bytes_received = 0
+    try:
         try_connect(s, socket_fd)
 
         try_send(s, file_request)
 
-        header = try_recv(s, 8)
+        header = try_receive(s, 8)
+        total_bytes_received += 8
 
         check_magic_no(header)
 
@@ -230,37 +254,53 @@ def main():
 
         status_code = check_status_code(header)
 
-        try:
-            if status_code == 1:
-                new_file = open(file_name, 'wb+')
-                while True:
-                    infile = s.recv(4096)
-                    print(infile)
-                    if len(infile) <= 4096:
+        if status_code == 1:
+            new_file = open(file_name, 'wb+')
+            try:
+                    while True:
+                        infile = s.recv(4096)
+                        if len(infile) < 4096:
+                            total_bytes_received += len(infile)
+                            new_file.write(infile)
+                            break
+                        total_bytes_received += len(infile)
                         new_file.write(infile)
-                        break
-                    new_file.write(infile)
 
-            print('File has been successfully downloaded!\n')
-            new_file.close()
+                    new_file.close()
+
+                    data_size_from_server = int.from_bytes(header[4:], 'big')
+
+                    file_that_client_received = open(file_name, 'rb')
+
+                    content_of_file = file_that_client_received.read()
+
+                    check_file_length(data_size_from_server, len(content_of_file))
+
+                    file_that_client_received.close()
+
+                    print('File has been successfully downloaded!\n')
+
+                    print('total bytes received from server is {} bytes\n'.format(total_bytes_received))
 
 
-        except Exception as e:
-            print('Problem occurred while processing the file {}'.format(e))
+            except Exception as e:
+                print('Problem occurred while processing the file {}\n'.format(e))
+                new_file.close()
 
-            data_size_from_server = int.from_bytes(header[4:], 'big')
+    except socket.timeout:
+        print("client socket timed out\n")
 
-            file_that_client_made = open(file_name, 'rb').read()
-
-            check_file_length(data_size_from_server, len(file_that_client_made))
-
-            new_file.close()
-
-            s.close()
-
-            sys.exit(1)
-
+    finally:
+        print('client socket closed\n')
         s.close()
+        sys.exit()
+
+
+def main():
+    print('')
+    socket_fd, file_name = process_command_line()
+    print('Arguments accepted\n')
+    contact_server(socket_fd, file_name)
 
 
 if __name__ == "__main__":

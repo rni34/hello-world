@@ -4,12 +4,12 @@ OBJECTS = processstudents.o studentlist.o student.o
 
 # Targets
 processstudents: $(OBJECTS)
-	$(CC) -o processstudents $(OBJECTS)
+    $(CC) -o processstudents $(OBJECTS)
 
 processstudents.o studentlist.o: studentlist.h
 
 processstudents.o studentlist.o student.o: student.h
 
 Clean:
-	rm *.o processstudents
+    rm *.o processstudents
 

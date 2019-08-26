@@ -1,0 +1,14 @@
+Oink,Oink,1
+A,A,1
+A,B,2
+B,A,3
+B,B,4,
+Aa,Aa,5
+Ab,Aa,6
+Aa,Ab,7
+Aaaaaaaaaaaaa,Aaaaaaaaaaaaa,8
+Aaaaaaaaaaaa,Aaaaaaaaaaaa,9
+Aaaaaaaaaaaaaa,Aaaaaaaaaaaaaa,10
+Aaaaaaaaaaaac,Aaaaaaaaaaaac,11
+Aaaaaaaaaaaab,Aaaaaaaaaaaab,12
+Aaaaaaaaaaaaa,Aaaaaaaaaaaaaa,13
