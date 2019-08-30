@@ -1,3 +1,5 @@
+//Ryo Nishikawa
+//20th Augast
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -9,7 +11,9 @@
 #define MAX_NUM_STUDENTS 500    // The maximum number of students this program can handle
 #define MAX_NAME_SIZE 50        // The maximum allowable name length
 
-
+//finds the nth position of the character
+//returns a pointer to that character
+//or if it does not exist then returns NULL
 char* strchrn(char* s, int c, int n)
 {
     int occurence = 0;
@@ -28,13 +32,20 @@ char* strchrn(char* s, int c, int n)
     return NULL;
 }
 
-
+//prints the name of the station and each site that
+//exceeds the threshold
 void printSite(FILE *file, double threshold)
 {
-
+    char buffer[MAX_LINE_LENGTH];
+    fgets(buffer, MAX_LINE_LENGTH, file);
+    fgets(buffer, MAX_LINE_LENGTH, file);
+    fgets(buffer, MAX_LINE_LENGTH, file);
+    char* commaPos = strchr(buffer, ',');
+    *commaPos = '\0';
+    printf("Dates when %.1f C was reached at %s\n\n",threshold, buffer);
 
     printf("   Date       MaxTemp\n");
-    char buffer[MAX_LINE_LENGTH];
+
     fgets(buffer, MAX_LINE_LENGTH, file);
     int c = fgetc(file);
     int done = false;
@@ -52,7 +63,7 @@ void printSite(FILE *file, double threshold)
     fgets(buffer, MAX_LINE_LENGTH, file);
     while (strcmp(buffer, "\n") != 0) {
         char* commaPos2 = NULL;
-        double maxTemp = NULL;
+        double maxTemp = 0;
 
         int date = 0;
         int month = 0;
@@ -73,18 +84,6 @@ void printSite(FILE *file, double threshold)
 }
 
 
-void printName(FILE *file, double threshold)
-{
-    char buffer[MAX_LINE_LENGTH];
-    int acc = 0;
-    while(acc < 3) {
-        fgets(buffer, MAX_LINE_LENGTH, file);
-        acc++;
-    }
-    char* commaPos = strchr(buffer, ',');
-    *commaPos = '\0';
-    printf("Dates when %.1f C was reached at %s\n\n",threshold, buffer);
-}
 
 
 // Main program. Read a linked list of students from a csv file, then display
@@ -102,12 +101,9 @@ int main(int argc, char* argv[])
             fprintf(stderr, "File '%s' not found\n",filename);
         } else {
 
-            printName(inputFile, threshold);
             printSite(inputFile, threshold);
         }
     }
 
-    // The program could now do various things that make use of
-    // the linked list, like deleting students and adding new ones,
-    // but the program is already quite long enough!
+\
 }
