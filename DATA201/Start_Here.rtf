@@ -1,0 +1,167 @@
+{\rtf1\ansi\deff0\nouicompat{\fonttbl{\f0\fnil\fcharset0 Courier New;}}
+{\colortbl ;\red0\green0\blue255;}
+{\*\generator Riched20 10.0.17134}\viewkind4\uc1 
+\pard\f0\fs22\lang5129 Data Wrangling Stack\par
+--------------------\par
+\par
+In this course we will use:\par
+\par
+- R as default programming language\par
+  -  Tidyverse as the R dialect of choice\par
+\par
+- The shell commands (bash or zsh), through the terminal\par
+\par
+- JupyterLab as interface to R (and a bit of Rstudio)\par
+  - JupyterLab requires Python to be built and installed, so you need Python as well.\par
+\par
+- Julia, Java(script), Scala, you-name-it: all of this is optional (and some exploration is suggested for 400 level students)\par
+\par
+Don't worry if all, or some, of these names don't ring any bell to you.\par
+You'll get familiar :-)\par
+\par
+Linux, Mac Os X, and Windows have a very good support for this software.\par
+Yet, each one of the three operating systems have some peculiar behaviour in installing.\par
+\par
+We first introduce you to the general strategy for installing the software stack we need:\par
+\par
+0) Make sure that you can use a terminal and git\par
+1) Check whether Python 3.5 (or newer version) is installed, if not install it\par
+2) Check whether R 3.4 (or newer version) is installed, if not install it\par
+3) Check whether you have conda or pip installed, if you don't have any of the two, install pip\par
+4) Install JupyterLab\par
+5) Run R and install the R kernel for JupyterLab\par
+6) Run JupyterLab, open the InstallationTest.ipynb and run its cells\par
+6.1) InstallationTest.ipynb will guide you through the installation of Tidyverse (it may take a while) and do some little checks\par
+7) Install other programming languages and their Jupyter kernels if you feel explorish (talk to me about this)\par
+\par
+If you get to the end of 6.1) without errors, you are good to go!\par
+\par
+### Details\par
+\par
+0) **Windows** is not always ready to provide a good terminal. So, you are in for a ride!\par
+\par
+You first need to install a serious terminal and git. Follow {{\field{\*\fldinst{HYPERLINK https://gitforwindows.org/ }}{\fldrslt{https://gitforwindows.org/\ul0\cf0}}}}\f0\fs22  instructions, install git and Git bash (that will be your terminal).\par
+\par
+If you have Windows 10, you have the (preferable) option of installing Ubuntu (which is Linux) on your Windows. See here: {{\field{\*\fldinst{HYPERLINK https://tutorials.ubuntu.com/tutorial/tutorial-ubuntu-on-windows }}{\fldrslt{https://tutorials.ubuntu.com/tutorial/tutorial-ubuntu-on-windows\ul0\cf0}}}}\f0\fs22  if you do this, then follow the Linux instructions.\par
+\par
+0) **Mac or Linux** you are good to go, it's already installed.\par
+\par
+If you are in Mac Os X, it's a good idea to install the free Xcode suite {{\field{\*\fldinst{HYPERLINK https://developer.apple.com/xcode/ }}{\fldrslt{https://developer.apple.com/xcode/\ul0\cf0}}}}\f0\fs22  and the "Command Line Tools". For this last one, run\par
+xcode-select --install\par
+in the terminal.\par
+\par
+If your are not familiar with the terminal, check out this tutorial: {{\field{\*\fldinst{HYPERLINK https://www.digitalocean.com/community/tutorials/an-introduction-to-the-linux-terminal }}{\fldrslt{https://www.digitalocean.com/community/tutorials/an-introduction-to-the-linux-terminal\ul0\cf0}}}}\f0\fs22\par
+(and maybe this *optional* one about navigating folders and files, {{\field{\*\fldinst{HYPERLINK https://www.digitalocean.com/community/tutorials/basic-linux-navigation-and-file-management }}{\fldrslt{https://www.digitalocean.com/community/tutorials/basic-linux-navigation-and-file-management\ul0\cf0}}}}\f0\fs22 )\par
+\par
+1.1) in your terminal, check whether you have Python installed and what's its version. The command is:\par
+$ python --version\par
+or\par
+$ python3 --version\par
+if the outcome is something like\par
+Python 3.5\par
+or a bigger number, you are good to go.\par
+\par
+If you don't have it, you need to install it.\par
+Linux: use your package manager.\par
+Mac Os X: install Homebrew and then Python (follow this steps {{\field{\*\fldinst{HYPERLINK http://docs.python-guide.org/en/latest/starting/install3/osx/ }}{\fldrslt{http://docs.python-guide.org/en/latest/starting/install3/osx/\ul0\cf0}}}}\f0\fs22 , don't worry about the last section of Pipenv and Virtual Environments).\par
+Windows: Download and install it from here: {{\field{\*\fldinst{HYPERLINK https://www.python.org/downloads/ }}{\fldrslt{https://www.python.org/downloads/\ul0\cf0}}}}\f0\fs22  (at the moment of writing this the most recent version is 3.7.0).\par
+\par
+\par
+2) Check whether R 3.4 (or newer version) is installed, if not install it\par
+\par
+In the terminal, run\par
+$ R --version\par
+if the output is something like\par
+R version 3.4 ...\par
+or a bigger numbers, you are good to go.\par
+\par
+If not, you need to install it.\par
+\par
+Linux: once again, use your package manager.\par
+Mac Os X: You'll need to first install some dependencies and then R.\par
+    Go to: {{\field{\*\fldinst{HYPERLINK https://cran.r-project.org/bin/macosx/tools/ }}{\fldrslt{https://cran.r-project.org/bin/macosx/tools/\ul0\cf0}}}}\f0\fs22  and install the latest versions of clang and gfortran.\par
+    Then go to: {{\field{\*\fldinst{HYPERLINK https://cran.r-project.org/bin/macosx/ }}{\fldrslt{https://cran.r-project.org/bin/macosx/\ul0\cf0}}}}\f0\fs22  and install the latest version of R\par
+Windows: Download and install it from here: {{\field{\*\fldinst{HYPERLINK https://cran.r-project.org/bin/windows/base/ }}{\fldrslt{https://cran.r-project.org/bin/windows/base/\ul0\cf0}}}}\f0\fs22\par
+\par
+\par
+3) Check whether you have conda or pip installed. The command is:\par
+\par
+For pip:\par
+$ pip --version\par
+or\par
+$ pip3 --version\par
+if the outcome is something like\par
+pip 10.0.1 ...\par
+\par
+For conda:\par
+$ conda --version\par
+if the outcome is something like\par
+conda 4.4.5\par
+\par
+or a bigger numbers, you are good to go. You need at least one between conda and pip.\par
+\par
+Otherwise, you need to install it.\par
+\par
+Linux: use your package manager to install pip.\par
+Mac Os X: you should have installed Python and Pip in one go using Homebrew in step 0). Are you sure you don't have pip?\par
+Windows: download the file {{\field{\*\fldinst{HYPERLINK https://bootstrap.pypa.io/get-pip.py }}{\fldrslt{https://bootstrap.pypa.io/get-pip.py\ul0\cf0}}}}\f0\fs22  in any folder (paste the link in a browser and "save as..."); open the terminal and navigate to that folder; run\par
+$ python get-pip.py\par
+\par
+4) Install JupyterLab\par
+\par
+That's the easy part! Open the terminal and run\par
+$ pip install jupyter\par
+and\par
+$ pip install jupyterlab\par
+\par
+5) Run R and install the R kernel for JupyterLab\par
+\par
+Go in the terminal. Run\par
+$ R\par
+this will open the console for R: the commands you type now will be interpreted by R. Type (without the >)\par
+> install.packages('devtools')\par
+then press the enter key. Magic will happen. Now you have installed a package that extends the base capabilities of R.\par
+Go again with\par
+> install.packages(c('repr', 'IRdisplay', 'evaluate', 'crayon', 'pbdZMQ', 'uuid', 'digest'))\par
+This will install a bunch of other things.\par
+Once you have installed the libraries run\par
+> devtools::install_github('IRkernel/IRkernel')\par
+which will install the library "IRkernel" and\par
+> IRkernel::installspec()\par
+which will allow JupyterLab to "speak" to R.\par
+Then you can quite R. Type\par
+> quit()\par
+press enter, then type\par
+> yes\par
+press enter and you are out of it.\par
+\par
+More details and options here: {{\field{\*\fldinst{HYPERLINK https://irkernel.github.io/installation/ }}{\fldrslt{https://irkernel.github.io/installation/\ul0\cf0}}}}\f0\fs22\par
+\par
+6) Run JupyterLab, open the InstallationTest.ipynb and run its cells\par
+6.1) InstallationTest.ipynb will guide you through the installation of Tidyverse (it may take a while) and do some little checks\par
+\par
+To run JupyterLab, open a terminal in the folder where your work files are (in this case, the folder where InstallationTest.ipynb is) and run\par
+$ jupyter-lab .\par
+\par
+It should start a browser interface to JupyterLab. You can double click on the InstallationTest.ipynb (you will find it on the left column) to open it.\par
+\par
+To terminate JupyterLab, go back to the terminal and press the control+c keys (keep control key pressed and press c). It will ask you if you want to stop the server, say yes.\par
+\par
+7) Install other programming languages and their Jupyter kernels if you feel explorish (talk to me about this)\par
+\par
+For 400 level students: you are supposed to at least try all the Julia notebooks. To do that, you need to install Julia.\par
+\par
+Windows and Mac Os X: go to {{\field{\*\fldinst{HYPERLINK https://julialang.org/downloads/ }}{\fldrslt{https://julialang.org/downloads/\ul0\cf0}}}}\f0\fs22  and download the right version of Julia.\par
+Linux: install Julia using your distribution package manager.\par
+\par
+Then, open Julia in the Terminal by running\par
+$ julia\par
+to let JupyterLab speak with Julia\par
+> using Pkg\par
+> Pkg.update()\par
+> Pkg.add("IJulia")\par
+\par
+The next time you'll run JupyterLab, your Julia kernel will be available.\par
+\par
+}
+ 

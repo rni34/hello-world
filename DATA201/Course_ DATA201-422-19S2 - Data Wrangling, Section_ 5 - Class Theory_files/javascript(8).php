@@ -1,0 +1,1 @@
+var toggleCycles=[[65,256],[97,257],[69,274],[101,275],[73,298],[105,299],[79,332],[111,333],[85,362],[117,363]];toggleLookup=makeToggleLookup(toggleCycles)
