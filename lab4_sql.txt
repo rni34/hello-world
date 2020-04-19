@@ -1,0 +1,31 @@
+1. Design two attribute and two table constraints for the REGISTRATION database. For
+example, you may define a constraint on the REGISTRATION table which specifies that
+the cost of registration has to be over $50. Alter the table(s) and demonstrate the operation
+of constraints you created.
+
+
+2. Create the OWNER2 table, which contains the id and name of each car owner, and the total
+number of vehicles owned by him/her.
+a. Define a trigger that will modify the OWNER2 table in the case when a new owner is
+added for a car (i.e. insertion to the OWNS table).
+b. Demonstrate the operation of your trigger on a few examples.
+
+
+3. Create a multitable view MULTIREG, which contains the number of a registration
+organization, the name of its manager and the number of employees working in it. To do
+this, first create a copy of the tanja.reg_org table, as follows:
+create table reg_org as select * from tanja.reg_org;
+Then use your REG_ORG and EMPLOYEE tables to create the MULTIREG view.
+a. Is it possible to update the MULTIREG view directly? Write an UPDATE on the view
+for the case when John Right becomes the manager of the registration organization
+number 1303.
+
+
+b. Define a trigger that will update all the underlying tables in the case of an UPDATE
+statement being run on the view that changes the name of the manager of the
+registration organization whose number is given. You may assume that the data about
+the new manager already exists in the EMPLOYEE table.
+
+
+c. Demonstrate the operation of your trigger when John Right becomes the manager of
+the registration organization number 1303.

@@ -1,120 +1,82 @@
-def revisedcompose(hdrlen, tosdscp, identification, flags, fragmentoffset, timetolive, protocoltype, sourceaddress,
-                   destinationaddress, payload):
-    """hdrlen is in 32bits
-    len(byte_stream) gives 4 * this
-    we need 16 bit numbers from 8 bit"""
-    byte_stream = bytearray()
-    headerchecksum = 0
-    version = 4
-    totallength = hdrlen * 4 + len(payload)
-    if version != 4:
-        return 1
-    if hdrlen.bit_length() > 4 or hdrlen < 5:
-        return 2
-    if tosdscp.bit_length() > 6 or tosdscp < 0:
-        return 3
-    if totallength.bit_length() > 16 or totallength < 0:
-        return 4
-    if identification.bit_length() > 16 or identification < 0:
-        return 5
-    if flags.bit_length() > 3 or flags < 0:
-        return 6
-    if fragmentoffset.bit_length() > 13 or fragmentoffset < 0:
-        return 7
-    if timetolive.bit_length() > 8 or timetolive < 0:
-        return 8
-    if protocoltype.bit_length() > 8 or protocoltype < 0:
-        return 9
-    if headerchecksum.bit_length() > 16 or headerchecksum < 0:
-        return 10
-    if sourceaddress.bit_length() > 32 or sourceaddress < 0:
-        return 11
-    if destinationaddress.bit_length() > 32 or destinationaddress < 0:
-        return 12
+# coding: utf-8
+# 自分の得意な言語で
+# Let's チャレンジ！！
+import datetime
 
-    a = (version << 4) | hdrlen
-    byte_stream.append(a)
-    # ----------------------------------------------
-    b = (tosdscp << 2)
-    byte_stream.append(b)
-    # -------------------------------------------
-    c = (totallength >> 8)
-    byte_stream.append(c)
-    d = (totallength & 255)
-    byte_stream.append(d)
-    # -----------------------------------------------
-    e = (identification >> 8)
-    byte_stream.append(e)
-    f = (identification & 255)
-    byte_stream.append(f)
-    # ----------------------------------------
-    g = (flags << 5) | (fragmentoffset >> 8)
-    byte_stream.append(g)
-    x = (fragmentoffset & 255)
-    byte_stream.append(x)
-    # ----------------------------------------
-    byte_stream.append(timetolive)
-    byte_stream.append(protocoltype)
-    # ---------------------------------------
-    h = (headerchecksum >> 8)
-    byte_stream.append(h)
-    i = (headerchecksum & 255)
-    byte_stream.append(i)
-    # ------------------------------------------
-    j = (sourceaddress >> 24)
-    byte_stream.append(j)
-    k = (sourceaddress >> 16) & 255
-    byte_stream.append(k)
-    l = (sourceaddress >> 8) & 255
-    byte_stream.append(l)
-    m = sourceaddress & 255
-    byte_stream.append(m)
-    # ---------------------------------------
-    n = (destinationaddress >> 24)
-    byte_stream.append(n)
-    o = (destinationaddress >> 16) & 255
-    byte_stream.append(o)
-    p = (destinationaddress >> 8) & 255
-    byte_stream.append(p)
-    q = destinationaddress & 255
-    byte_stream.append(q)
-    for i, element in enumerate(byte_stream):
-        if element <= 0xFF:
-            if element != totallength:
-                x = element.to_bytes(1, byteorder='big')
+input_line = input()
+input_list = input_line.split()
+# print(input_list)
+a = int(input_list[0])
+b = int(input_list[1])
+c = int(input_list[2])
+d = int(input_list[3])
+e = int(input_list[4])
+n = int(input())
+# print(a,b,c,d,e,n)
+train_time_table = []
+up_down = []
+for i in range(n):
+    input_line = input()
+    direction = input_line[0]
+    arrival_time = datetime.time(int(input_line[2:4]), int(input_line[5:7]), 00)
+    depart_time = datetime.time(int(input_line[8:10]), int(input_line[11:13]), 00)
+    # rint(arrival_time, depart_time)
+    train_time_table.append([direction, arrival_time, depart_time])
+# print()
+# for i in train_time_table:
+#     print(i[0],i[1],i[2])
 
-            else:
-                x = element.to_bytes(2, byteorder='big')
+result = []
+previous_open = None
+previous_close = None
+for train_line in train_time_table:
+    if train_line[0] == '0':
+        gate_close_time = datetime.datetime.combine(datetime.date.today(), train_line[1]) - datetime.timedelta(
+            seconds=a)
+        gate_open_time = datetime.datetime.combine(datetime.date.today(), train_line[2]) + datetime.timedelta(seconds=b)
+    else:
+        gate_close_time = datetime.datetime.combine(datetime.date.today(), train_line[1]) - datetime.timedelta(
+            seconds=c)
+        gate_open_time = datetime.datetime.combine(datetime.date.today(), train_line[1]) + datetime.timedelta(seconds=d)
 
-        elif element <= 0xFFF:
-            x = element.to_bytes(2, byteorder='big')
+    result.append([gate_close_time.strftime("%H:%M:%S"), gate_open_time.strftime("%H:%M:%S")])
 
+ans = []
+
+for i, train_line in enumerate(result):
+    if i > 0 and result[i - 1][0] > train_line[0]:
+        ans.pop()
+        ans.append([train_line[0], result[i - 1][1]])
+    else:
+        ans.append(train_line)
+
+res = []
+for i, train_line in enumerate(ans):
+    gate_open_time = datetime.time(int(ans[i][1][:2]), int(ans[i][1][3:5]), int(ans[i][1][6:8]))
+    gate_close_time = datetime.time(int(ans[i][0][:2]), int(ans[i][0][3:5]), int(ans[i][0][6:8]))
+    res.append([gate_close_time, gate_open_time])
+final = []
+for i, train_line in enumerate(res):
+    if i > 0:
+        # print(res[i-1][1])
+        interval = datetime.datetime.combine(datetime.date.today(), res[i - 1][1]) + datetime.timedelta(seconds=e)
+        if interval >= datetime.datetime.combine(datetime.date.today(), train_line[0]):
+            final.append([res[i - 1][1], train_line[0]])
         else:
-            x = element.to_bytes(4, byteorder='big')
-        print(i, x, element)
+            final.append(train_line)
+    else:
+        final.append(train_line)
 
-    for i in range(hdrlen * 4 - len(byte_stream)):
-        byte_stream.append(0x00)
+for i in final:
+    print(i[0], '-', i[1])
 
-    X = 0
-    for i in range(len(byte_stream) // 2):
-        X += (byte_stream[2 * i] << 8) | byte_stream[2 * i + 1]
-
-    while X > 0xFFFF:
-        X0 = X & 0xFFFF
-        X1 = X >> 16
-        X = X0 + X1
-
-    X = X ^ 0xFFFF
-    x1 = X >> 8
-    x2 = X & 255
-    byte_stream[10] = x1
-    byte_stream[11] = x2
-
-    for byte in payload:
-        byte_stream.append(byte)
+# ・踏切を開く時刻から e 秒以内に再度踏切を閉じる必要がある場合、踏切を開きません。
 
 
-    return byte_stream
 
-print(revisedcompose (6, 24, 4711, 0, 22, 64, 0x06, 0x22334455, 0x66778899, bytearray([0x10, 0x11, 0x12, 0x13, 0x14, 0x15])))
+
+
+
+
+
+

@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="fe1f7456-f104-4b09-acb8-22380f020897" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="lab1.sqlite" type="feb32156:DbDataSourceImpl" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="lab1.sqlite" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="SQLite - lab1.sqlite" type="feb32156:DbDataSourceImpl" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="SQLite - lab1.sqlite" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="SQLite - lab1.sqlite" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="main: schema" type="981a47c2:SqliteImplModel$Schema" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectId" id="1Y0bdXCjdWiz3BlWzmZNvUiTWLF" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="sqlite" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../team-800" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors" />
+  </component>
+  <component name="RunManager">
+    <configuration name="SQLiteJDBC" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="SQLiteJDBC" />
+      <module name="seng301-lab1-sqlite" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.SQLiteJDBC" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand>
+              <path>
+                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+                <item name="root:SQLite - lab1.sqlite" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+              </path>
+              <path>
+                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+                <item name="root:SQLite - lab1.sqlite" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+                <item name="com.intellij.database.console.session.MessageBusSession@a28c13" type="9fbbdea:ServiceModel$ServiceNode" />
+              </path>
+              <path>
+                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+                <item name="root:SQLite - lab1.sqlite" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+                <item name="com.intellij.database.console.session.MessageBusSession@36666345" type="9fbbdea:ServiceModel$ServiceNode" />
+              </path>
+              <path>
+                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+                <item name="root:SQLite - lab1.sqlite" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+                <item name="com.intellij.database.console.session.MessageBusSession@1c1c95ea" type="9fbbdea:ServiceModel$ServiceNode" />
+              </path>
+              <path>
+                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+                <item name="root:SQLite - lab1.sqlite" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+                <item name="com.intellij.database.console.session.MessageBusSession@329b4a1c" type="9fbbdea:ServiceModel$ServiceNode" />
+              </path>
+              <path>
+                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+                <item name="root:SQLite - lab1.sqlite" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+                <item name="com.intellij.database.console.session.MessageBusSession@5eefcb6" type="9fbbdea:ServiceModel$ServiceNode" />
+              </path>
+            </expand>
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="fe1f7456-f104-4b09-acb8-22380f020897" name="Default Changelist" comment="" />
+      <created>1582082546725</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1582082546725</updated>
+      <workItem from="1582082549754" duration="4685000" />
+      <workItem from="1582096526987" duration="6614000" />
+      <workItem from="1582104762031" duration="653000" />
+      <workItem from="1582170454131" duration="407000" />
+      <workItem from="1582185771767" duration="609000" />
+      <workItem from="1582193245302" duration="250000" />
+      <workItem from="1582236136447" duration="1972000" />
+      <workItem from="1582240607873" duration="2000" />
+      <workItem from="1582256543209" duration="2164000" />
+      <workItem from="1582261829520" duration="653000" />
+      <workItem from="1582585024452" duration="7000" />
+      <workItem from="1583712703809" duration="219000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="2495" y="200" width="800" height="672" key="#Project_Structure" timestamp="1582083417623">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2495" y="200" width="800" height="672" key="#Project_Structure/40.0.1880.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1582083417623" />
+    <state x="2495" y="200" width="800" height="672" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1582084028102">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2495" y="200" width="800" height="672" key="#com.intellij.execution.impl.EditConfigurationsDialog/40.0.1880.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1582084028102" />
+    <state x="2331" y="280" width="424" height="479" key="FileChooserDialogImpl" timestamp="1583712920970">
+      <screen x="1680" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2331" y="280" width="424" height="479" key="FileChooserDialogImpl/40.0.1640.1010/1680.0.1920.1080@1680.0.1920.1080" timestamp="1583712920970" />
+    <state x="2571" y="280" width="647" height="506" key="FileChooserDialogImpl/40.0.1880.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1582256684581" />
+    <state width="1838" height="290" key="GridCell.Tab.0.bottom" timestamp="1582257599927">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1838" height="290" key="GridCell.Tab.0.bottom/40.0.1880.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1582257599927" />
+    <state width="1838" height="290" key="GridCell.Tab.0.center" timestamp="1582257599927">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1838" height="290" key="GridCell.Tab.0.center/40.0.1880.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1582257599927" />
+    <state width="1838" height="290" key="GridCell.Tab.0.left" timestamp="1582257599927">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1838" height="290" key="GridCell.Tab.0.left/40.0.1880.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1582257599927" />
+    <state width="1838" height="290" key="GridCell.Tab.0.right" timestamp="1582257599927">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1838" height="290" key="GridCell.Tab.0.right/40.0.1880.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1582257599927" />
+    <state width="222" height="457" key="HiddenNamespacesPopup" timestamp="1582083157251">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state width="222" height="457" key="HiddenNamespacesPopup/40.0.1880.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1582083157251" />
+    <state x="2383" y="116" width="1024" height="840" key="SettingsEditor" timestamp="1582100071205">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2383" y="116" width="1024" height="840" key="SettingsEditor/40.0.1880.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1582100071205" />
+    <state x="2619" y="183" width="552" height="706" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog" timestamp="1582084020777">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2619" y="183" width="552" height="706" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog/40.0.1880.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1582084020777" />
+    <state x="2316" y="360" key="com.intellij.ide.util.TipDialog" timestamp="1583712868843">
+      <screen x="1680" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2316" y="360" key="com.intellij.ide.util.TipDialog/40.0.1640.1010/1680.0.1920.1080@1680.0.1920.1080" timestamp="1583712868843" />
+    <state x="2556" y="360" key="com.intellij.ide.util.TipDialog/40.0.1880.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1582185772859" />
+    <state x="663" y="347" key="com.intellij.ide.util.TipDialog/40.0.1880.1040/1920.0.1920.1080@40.0.1880.1040" timestamp="1582082555567" />
+    <state x="2316" y="162" width="1157" height="748" key="new project wizard" timestamp="1582086119277">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2316" y="162" width="1157" height="748" key="new project wizard/40.0.1880.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1582086119277" />
+    <state x="2563" y="238" width="672" height="678" key="search.everywhere.popup" timestamp="1582100023500">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2563" y="238" width="672" height="678" key="search.everywhere.popup/40.0.1880.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1582100023500" />
+  </component>
+</project>

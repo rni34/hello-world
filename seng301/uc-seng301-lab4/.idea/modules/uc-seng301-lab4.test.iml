@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module external.linked.project.id="uc-seng301-lab4:test" external.linked.project.path="$MODULE_DIR$/../.." external.root.project.path="$MODULE_DIR$/../.." external.system.id="GRADLE" external.system.module.group="" external.system.module.type="sourceSet" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_11">
+    <output-test url="file://$MODULE_DIR$/../../build/classes/java/test" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/../../src/test">
+      <sourceFolder url="file://$MODULE_DIR$/../../src/test/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../src/test/resources" type="java-test-resource" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="uc-seng301-lab4.main" />
+    <orderEntry type="library" name="Gradle: org.xerial:sqlite-jdbc:3.28.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.guava:guava:28.0-jre" level="project" />
+    <orderEntry type="library" name="Gradle: io.cucumber:cucumber-junit:5.4.0" level="project" />
+    <orderEntry type="library" name="Gradle: junit:junit:4.13" level="project" />
+    <orderEntry type="library" name="Gradle: io.cucumber:cucumber-java:5.4.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.guava:failureaccess:1.0.1" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.code.findbugs:jsr305:3.0.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.checkerframework:checker-qual:2.8.1" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.errorprone:error_prone_annotations:2.3.2" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.j2objc:j2objc-annotations:1.3" level="project" />
+    <orderEntry type="library" name="Gradle: org.codehaus.mojo:animal-sniffer-annotations:1.17" level="project" />
+    <orderEntry type="library" name="Gradle: org.hamcrest:hamcrest-core:1.3" level="project" />
+    <orderEntry type="library" name="Gradle: io.cucumber:cucumber-core:5.4.0" level="project" />
+    <orderEntry type="library" name="Gradle: io.cucumber:cucumber-expressions:8.3.1" level="project" />
+    <orderEntry type="library" name="Gradle: io.cucumber:datatable:3.3.0" level="project" />
+    <orderEntry type="library" name="Gradle: io.cucumber:cucumber-gherkin-vintage:5.4.0" level="project" />
+    <orderEntry type="library" name="Gradle: io.cucumber:cucumber-gherkin:5.4.0" level="project" />
+    <orderEntry type="library" name="Gradle: io.cucumber:cucumber-plugin:5.4.0" level="project" />
+    <orderEntry type="library" name="Gradle: io.cucumber:docstring:5.4.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.apiguardian:apiguardian-api:1.1.0" level="project" />
+    <orderEntry type="library" name="Gradle: io.cucumber:tag-expressions:2.0.4" level="project" />
+  </component>
+  <component name="TestModuleProperties" production-module="uc-seng301-lab4.main" />
+</module>

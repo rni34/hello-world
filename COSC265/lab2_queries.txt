@@ -1,0 +1,67 @@
+1. Find all types of movies in the database.
+
+select distinct type from movie;
+
+
+2. Find all the information about the star whose number is 4.
+select * from tanja.star where snumber = 4;
+
+3. Find the name, year and city of birth of the star whose number is 50.
+select fname, lname, born, city from tanja.star where snumber=50;
+
+
+4. List the names of all stars born in or after 1950.
+select fname, lname from tanja.star where born >= 1950 ;
+
+
+5. List the numbers and titles of all movies made between 1965 and 1975.
+select mnumber, title from tanja.movie where year between 1965 and 1975;
+select mnumber, title from tanja.movie where year>=1965 and year<=1975;
+
+
+6. List the numbers and titles of all movies whose type is fantasy or romance.
+select mnumber, title from tanja.movie where type = fantasy or type = romance;
+select mnumber, title from tanja.movie where type in ('romance', 'fantasy');
+
+
+7. Find the name, year and city of birth for every star born in 1920s who is still living.
+select fname, lname, born, city from tanja.star where born between 1920 and 1929 and died is null;
+
+
+8. Produce a list of numbers of all stars that acted in movies number 85 to 91.
+
+select distinct star from stars where movie between 85 and 91;
+
+9. For all directors who are deceased, list their names and how long they lived.
+select fname, lname, died - born from director where died is not null;
+
+
+10. Find the total number of awards won by comedies.
+select sum(aawon) from movie where type='comedy';
+
+
+11. List the titles of all movies and the names of their directors.
+select title, director.fname, director.lname from movie
+join director
+    on director.dnumber = movie.director;
+
+
+12. Find the name of the star who played Vronsky in the movie entitled 'Anna Karenina'.
+select star.fname, star.lname from stars
+join star on stars.star = star.snumber
+join movie on stars.movie = movie.mnumber
+where movie.title='Anna Karenina' and role = 'Vronksky';
+
+
+The queries for the REGISTRATION database
+
+1. Find the different types of vehicle in the database.
+
+
+2. Get plate numbers, makes and models of all cars imported from Japan.
+3. Produce a list of all vehicles, showing only the plate numbers and the year of
+manufacture. Order the tuples by the year.
+4. List the names of all owners. Sort the output by last name descending and by first name
+ascending.
+5. For each car, show the plates number and the name of the current owner.
+/home/cosc/student/rni34/Downloads/

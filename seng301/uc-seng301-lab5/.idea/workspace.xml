@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="665945ed-781a-494b-9a24-cce13bba8660" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="uc-seng301-lab5" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+        <option value="Interface" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectId" id="1ZHfA7qmj1YR1amBDzm0urrEZNq" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../uc-seng301-lab4" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="http.proxy" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/test/resources" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/test/resources" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Gradle.uc-seng301-lab5 [cucumber]">
+    <configuration name="/home/cosc/student/rni34/Documents/seng301/uc-seng301-lab5/build.gradle [cucumber] (1)" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/build.gradle" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="cucumber" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="/home/cosc/student/rni34/Documents/seng301/uc-seng301-lab5/build.gradle [cucumber] (2)" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/build.gradle" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="cucumber" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="/home/cosc/student/rni34/Documents/seng301/uc-seng301-lab5/build.gradle [cucumber]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/build.gradle" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="cucumber" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="uc-seng301-lab5 [cucumber]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="cucumber" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.uc-seng301-lab5 [cucumber]" />
+        <item itemvalue="Gradle./home/cosc/student/rni34/Documents/seng301/uc-seng301-lab5/build.gradle [cucumber] (2)" />
+        <item itemvalue="Gradle./home/cosc/student/rni34/Documents/seng301/uc-seng301-lab5/build.gradle [cucumber] (1)" />
+        <item itemvalue="Gradle./home/cosc/student/rni34/Documents/seng301/uc-seng301-lab5/build.gradle [cucumber]" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="665945ed-781a-494b-9a24-cce13bba8660" name="Default Changelist" comment="" />
+      <created>1584500793907</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1584500793907</updated>
+      <workItem from="1584500795173" duration="56000" />
+      <workItem from="1584500865224" duration="2196000" />
+      <workItem from="1584503232593" duration="1765000" />
+      <workItem from="1584505089444" duration="320000" />
+      <workItem from="1584505460216" duration="85000" />
+      <workItem from="1584505625789" duration="3124000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="2024" y="201" width="800" height="672" key="#Project_Structure" timestamp="1584509213843">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2024" y="201" width="800" height="672" key="#Project_Structure/0.0.1920.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1584509213843" />
+    <state x="3153" y="297" width="424" height="479" key="FileChooserDialogImpl" timestamp="1584505956808">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="3153" y="297" width="424" height="479" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1584505956808" />
+    <state width="897" height="427" key="GridCell.Tab.0.bottom" timestamp="1584509320825">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state width="897" height="427" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1584509320825" />
+    <state width="897" height="427" key="GridCell.Tab.0.center" timestamp="1584509320824">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state width="897" height="427" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1584509320824" />
+    <state width="897" height="427" key="GridCell.Tab.0.left" timestamp="1584509320824">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state width="897" height="427" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1584509320824" />
+    <state width="897" height="427" key="GridCell.Tab.0.right" timestamp="1584509320825">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state width="897" height="427" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1584509320825" />
+    <state x="2383" y="116" width="1024" height="840" key="SettingsEditor" timestamp="1584502872075">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2383" y="116" width="1024" height="840" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1584502872075" />
+    <state x="2563" y="238" width="672" height="678" key="search.everywhere.popup" timestamp="1584507101489">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2563" y="238" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1584507101489" />
+  </component>
+</project>

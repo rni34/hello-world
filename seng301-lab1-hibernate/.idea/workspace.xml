@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="34c5c6a1-f23e-4cc9-bed2-75e8031f5b44" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="lab1.sqlite" type="feb32156:DbDataSourceImpl" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="lab1.sqlite" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="lab1.sqlite" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="main: schema" type="981a47c2:SqliteImplModel$Schema" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="hibernate-configuration-5.2" />
+        <option value="hibernate-main-5.2" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectId" id="1Y0isa4ATm4srpkpwLmBnXQLHnV" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="sqlite" />
+    <property name="JPA.DatabaseSchemaImportDialog" value="898e69bc-2e68-4ef4-aef8-96e6e47c8df0" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="http.proxy" />
+  </component>
+  <component name="RecentsManager">
+    <key name="ImportMappingsDialog.RecentPackages">
+      <recent name="entity" />
+      <recent name="" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="seng301-lab1-hibernate" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand>
+              <path>
+                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+                <item name="root:lab1.sqlite" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+              </path>
+              <path>
+                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+                <item name="root:lab1.sqlite" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+                <item name="com.intellij.database.console.session.MessageBusSession@f13a9a2" type="9fbbdea:ServiceModel$ServiceNode" />
+              </path>
+            </expand>
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="34c5c6a1-f23e-4cc9-bed2-75e8031f5b44" name="Default Changelist" comment="" />
+      <created>1582086119349</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1582086119349</updated>
+      <workItem from="1582086122441" duration="2180000" />
+      <workItem from="1582104810334" duration="1819000" />
+      <workItem from="1582170518714" duration="339000" />
+      <workItem from="1582186481355" duration="6877000" />
+      <workItem from="1582236461768" duration="3938000" />
+      <workItem from="1582240608093" duration="6000" />
+      <workItem from="1582248412189" duration="3253000" />
+      <workItem from="1582252498618" duration="799000" />
+      <workItem from="1582256450129" duration="90000" />
+      <workItem from="1582256687291" duration="4400000" />
+      <workItem from="1582261875577" duration="4282000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="2490" y="198" width="800" height="672" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1582087868077">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2490" y="198" width="800" height="672" key="#com.intellij.execution.impl.EditConfigurationsDialog/40.0.1880.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1582087868077" />
+    <state x="2627" y="335" width="524" height="437" key="#com.intellij.ide.util.PackageChooserDialog" timestamp="1582086438165">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2627" y="335" width="524" height="437" key="#com.intellij.ide.util.PackageChooserDialog/40.0.1880.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1582086438165" />
+    <state x="2573" y="78" width="643" height="917" key="#com.intellij.jpa.generation.ui.DatabaseSchemaImportDialog" timestamp="1582086524463">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2573" y="78" width="643" height="917" key="#com.intellij.jpa.generation.ui.DatabaseSchemaImportDialog/40.0.1880.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1582086524463" />
+    <state x="2433" y="292" width="424" height="479" key="FileChooserDialogImpl" timestamp="1582261916128">
+      <screen x="1680" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2433" y="292" width="424" height="479" key="FileChooserDialogImpl/40.0.1640.1010/1680.0.1920.1080@1680.0.1920.1080" timestamp="1582261916128" />
+    <state x="2673" y="292" width="647" height="479" key="FileChooserDialogImpl/40.0.1880.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1582256539092" />
+    <state width="1838" height="224" key="GridCell.Tab.0.bottom" timestamp="1582261088354">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1838" height="224" key="GridCell.Tab.0.bottom/40.0.1640.1010/1680.0.1920.1080@1680.0.1920.1080" timestamp="1582256289707" />
+    <state width="1838" height="224" key="GridCell.Tab.0.bottom/40.0.1880.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1582261088354" />
+    <state width="1838" height="224" key="GridCell.Tab.0.center" timestamp="1582261088354">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1838" height="224" key="GridCell.Tab.0.center/40.0.1640.1010/1680.0.1920.1080@1680.0.1920.1080" timestamp="1582256289707" />
+    <state width="1838" height="224" key="GridCell.Tab.0.center/40.0.1880.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1582261088354" />
+    <state width="1838" height="224" key="GridCell.Tab.0.left" timestamp="1582261088354">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1838" height="224" key="GridCell.Tab.0.left/40.0.1640.1010/1680.0.1920.1080@1680.0.1920.1080" timestamp="1582256289707" />
+    <state width="1838" height="224" key="GridCell.Tab.0.left/40.0.1880.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1582261088354" />
+    <state width="1838" height="224" key="GridCell.Tab.0.right" timestamp="1582261088354">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1838" height="224" key="GridCell.Tab.0.right/40.0.1640.1010/1680.0.1920.1080@1680.0.1920.1080" timestamp="1582256289707" />
+    <state width="1838" height="224" key="GridCell.Tab.0.right/40.0.1880.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1582261088354" />
+    <state width="225" height="457" key="HiddenNamespacesPopup" timestamp="1582238467534">
+      <screen x="1680" y="0" width="1920" height="1080" />
+    </state>
+    <state width="225" height="457" key="HiddenNamespacesPopup/40.0.1640.1010/1680.0.1920.1080@1680.0.1920.1080" timestamp="1582238467534" />
+    <state x="2383" y="116" width="1024" height="840" key="SettingsEditor" timestamp="1582087951359">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2383" y="116" width="1024" height="840" key="SettingsEditor/40.0.1880.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1582087951359" />
+    <state x="2583" y="366" key="com.intellij.ide.util.TipDialog" timestamp="1582256457039">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2343" y="366" key="com.intellij.ide.util.TipDialog/40.0.1640.1010/1680.0.1920.1080@1680.0.1920.1080" timestamp="1582252509865" />
+    <state x="2583" y="366" key="com.intellij.ide.util.TipDialog/40.0.1880.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1582256457039" />
+  </component>
+</project>

@@ -1,0 +1,45 @@
+1. Find names of stars who acted in movies directed by Sofia Coppola
+select star.fname, star.lname
+from stars,star,movie,director
+where star = star.snumber and movie = movie.mnumber and movie.director = director.dnumber
+and director.fname = 'Sofia' and director.lname = 'Coppola'
+;
+
+2. Find names of stars who acted in at least two movies directed by Sofia Coppola.
+select star.fname, star.lname
+from stars,star,movie,director
+where star = star.snumber and movie = movie.mnumber and movie.director = director.dnumber
+and director.fname = 'Sofia' and director.lname = 'Coppola'
+group by(star.fname, star.lname)
+having count(*) > 1
+;
+
+3. Show types of movies for which there are more than 5 movies in the database. Order the
+results by decreasing number of movies.
+select type, count(*) as num
+from movie
+group by type
+having count(*)>5
+order by num desc
+;
+
+4. Find the names of all directors who directed at least as many movies as the director number15
+select director.fname, director.lname
+from director, movie
+where director.dnumber = movie.director
+group by director, fname, lname
+having count(*) >= (select count(*) from movie where director = 15)
+;
+
+5. Find the director who has directed most dramas.
+select director.fname, director.lname
+from director, movie
+where director.dnumber = movie.director and type = 'drama'
+group by director, fname, lname
+having count(*) >= all(select count(*) from movie where type='drama' group by director)
+;
+
+1. Get full details of all vehicles which were registered during July 2011
+select *
+from vehicle join registration R on R.plates = vehicle.plates
+where reg_date between ’01-jul-2011’ and ’31-jul-2011’;
